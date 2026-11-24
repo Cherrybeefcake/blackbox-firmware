@@ -204,3 +204,8 @@ void showNotice(const App &app, bool missing) {
     text(6, 36, app.name, TFT_WHITE, 2);
     text(6, 68, missing ? "Required hardware unavailable" : "Planned application", green);
 }
+void airFrame(const char *title, const char *footer) { frame(title, footer); }
+void airText(int x, int y, const char *value, bool accent) { text(x, y, value, accent ? green : TFT_WHITE); }
+void airRect(int x, int y, int width, int height, bool accent) {
+    lcd.fillRect(x, y, width, height, accent ? green : muted);
+}

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "device.h"
 #include "modules.h"
+#include "wireless.h"
 #include <Arduino.h>
 namespace {
 Navigation nav;
@@ -16,6 +17,7 @@ void setup() {
 }
 void loop() {
     Key key = readInput();
+    air::poll();
     if (startup) {
         if (millis() - started >= 850) {
             startup = false;

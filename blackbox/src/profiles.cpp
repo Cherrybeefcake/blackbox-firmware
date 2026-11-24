@@ -31,6 +31,6 @@ unsigned moduleCount() { return sizeof(inventory) / sizeof(inventory[0]); }
 Modules modules(inventory, moduleCount());
 #include "platform.h"
 uint16_t boardCapabilities(bool hasPartition) {
-    return (modules.slot(0).owner == Owner::System ? Panel : 0) |
+    return Wifi | Bluetooth | (modules.slot(0).owner == Owner::System ? Panel : 0) |
            (modules.slot(2).owner == Owner::System ? ADC : 0) | (hasPartition ? Flash : 0);
 }

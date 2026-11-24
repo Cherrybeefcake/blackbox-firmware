@@ -1,0 +1,37 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='972' height='604' viewBox='0 0 486 302' font-family='monospace' font-size='9'><rect width='486' height='302' fill='#24292b'/><text x='4' y='13' fill='white'>SIMULATED DISCOVERY DATA</text>
+<g transform='translate(2 20)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>WI-FI</text>
+<text x='4' y='127' fill='white'>Tap G0: next  Hold: select  DEL: back</text>
+<rect x='195' y='28' width='29' height='4' fill='#10cf81'/><text x='4' y='32' fill='white'>> Lab North         -47 dBm</text>
+<rect x='195' y='44' width='24' height='4' fill='#10cf81'/><text x='4' y='48' fill='white'>  Lab South         -56 dBm</text>
+<rect x='195' y='60' width='20' height='4' fill='#10cf81'/><text x='4' y='64' fill='white'>  Lab Sensor        -65 dBm</text>
+<text x='4' y='80' fill='white'>  Rescan</text>
+<text x='4' y='96' fill='white'>  Sort by channel</text>
+</g>
+<g transform='translate(244 20)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>CHANNELS</text>
+<text x='4' y='127' fill='white'>Tap G0: next  Hold: select  DEL: back</text>
+<text x='4' y='32' fill='white'>Observed APs; not utilization</text>
+<rect x='5' y='72' width='10' height='4' fill='#10cf81'/><rect x='21' y='75' width='10' height='1' fill='#999'/><rect x='37' y='75' width='10' height='1' fill='#999'/><rect x='53' y='75' width='10' height='1' fill='#999'/><rect x='69' y='75' width='10' height='1' fill='#999'/><rect x='85' y='73' width='10' height='3' fill='#999'/><rect x='101' y='75' width='10' height='1' fill='#999'/><rect x='117' y='75' width='10' height='1' fill='#999'/><rect x='133' y='75' width='10' height='1' fill='#999'/><rect x='149' y='75' width='10' height='1' fill='#999'/><rect x='165' y='75' width='10' height='1' fill='#999'/><rect x='181' y='75' width='10' height='1' fill='#999'/><rect x='197' y='75' width='10' height='1' fill='#999'/><rect x='213' y='75' width='10' height='1' fill='#999'/><text x='5' y='87' fill='white'>Ch 1: 2 APs, max -47 dBm</text>
+<text x='5' y='106' fill='white'>> Channel   Rescan   Home</text>
+</g>
+<g transform='translate(2 160)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>WI-FI</text>
+<text x='4' y='127' fill='white'>Tap G0: next  Hold: select  DEL: back</text>
+<text x='4' y='32' fill='white'>Lab North</text>
+<rect x='5' y='58' width='4' height='25' fill='#10cf81'/><rect x='12' y='56' width='4' height='27' fill='#10cf81'/><rect x='19' y='54' width='4' height='29' fill='#10cf81'/><rect x='26' y='52' width='4' height='31' fill='#10cf81'/><rect x='33' y='50' width='4' height='33' fill='#10cf81'/><rect x='40' y='58' width='4' height='25' fill='#10cf81'/><rect x='47' y='56' width='4' height='27' fill='#10cf81'/><rect x='54' y='54' width='4' height='29' fill='#10cf81'/><rect x='61' y='52' width='4' height='31' fill='#10cf81'/><rect x='68' y='50' width='4' height='33' fill='#10cf81'/><rect x='75' y='58' width='4' height='25' fill='#10cf81'/><rect x='82' y='56' width='4' height='27' fill='#10cf81'/><rect x='89' y='54' width='4' height='29' fill='#10cf81'/><rect x='96' y='52' width='4' height='31' fill='#10cf81'/><rect x='103' y='50' width='4' height='33' fill='#10cf81'/><rect x='110' y='58' width='4' height='25' fill='#10cf81'/><rect x='117' y='56' width='4' height='27' fill='#10cf81'/><rect x='124' y='54' width='4' height='29' fill='#10cf81'/><text x='4' y='96' fill='white'>Min -60 Max -44 Avg -52 dBm</text>
+<text x='4' y='111' fill='white'>ENTER: stop</text>
+</g>
+<g transform='translate(244 160)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>BLUETOOTH</text>
+<text x='4' y='127' fill='white'>Tap G0: next  Hold: select  DEL: back</text>
+<text x='4' y='32' fill='white'>Demo beacon</text>
+<text x='4' y='48' fill='white'>-47 dBm   02:00:00:00:00:01</text>
+<text x='4' y='64' fill='white'>Service: Environment</text>
+<text x='4' y='96' fill='white'>> Back to list</text>
+</g>
+</svg>

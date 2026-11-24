@@ -20,6 +20,9 @@ struct Lifecycle {
     void (*refresh)();
     void (*input)(Key);
     void (*leave)();
+    bool (*special)(Key);
+    constexpr Lifecycle(void (*e)(), void (*r)(), void (*i)(Key), void (*l)(), bool (*s)(Key) = nullptr)
+        : enter(e), refresh(r), input(i), leave(l), special(s) {}
 };
 struct App {
     const char *name;
@@ -28,6 +31,7 @@ struct App {
     uint16_t needs;
     const Lifecycle *run;
 };
+extern const Lifecycle wifiApp, bleApp, channelApp;
 extern const Lifecycle systemApp, settingsApp, modulesApp;
 unsigned appCount();
 const App *appAt(unsigned index);

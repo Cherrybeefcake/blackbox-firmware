@@ -8,6 +8,13 @@ void Navigation::handle(Key key, uint16_t hardware) {
         return;
     }
     if (page != Home) {
+        if (page == Running && app->run->special &&
+            (key == Key::Back || key == Key::Hold || key == Key::Open)) {
+            if (app->run->special(key)) return;
+            app->run->leave();
+            page = Home;
+            return;
+        }
         if (key == Key::Back || key == Key::Hold || (page != Running && key == Key::Step)) {
             if (page == Running) app->run->leave();
             page = Home;
