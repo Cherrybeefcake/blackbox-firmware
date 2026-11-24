@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "device.h"
+#include "modules.h"
 #include <Arduino.h>
 namespace {
 Navigation nav;
@@ -9,6 +10,8 @@ uint32_t started, lastSample;
 void setup() {
     initDisplay();
     initStatus(initInput());
+    modules.identify(status.adv);
+    for (unsigned i = 0; i < 4; ++i) modules.reserveSystem(i);
     started = millis();
 }
 void loop() {
@@ -21,7 +24,7 @@ void loop() {
     } else {
         auto oldPage = nav.page;
         unsigned oldSelection = nav.selected;
-        nav.handle(key, Panel | ADC | (status.partition ? Flash : 0));
+        nav.handle(key, boardCapabilities(status.partition != 0));
         if (nav.page == Navigation::Home && (oldPage != nav.page || oldSelection != nav.selected))
             renderHome(nav.selected, oldPage == nav.page ? int(oldSelection) : -1);
         if (nav.page != oldPage && (nav.page == Navigation::Reserved || nav.page == Navigation::Missing))

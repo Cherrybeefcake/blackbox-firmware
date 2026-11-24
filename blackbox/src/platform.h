@@ -28,7 +28,7 @@ struct App {
     uint16_t needs;
     const Lifecycle *run;
 };
-extern const Lifecycle systemApp, settingsApp;
+extern const Lifecycle systemApp, settingsApp, modulesApp;
 unsigned appCount();
 const App *appAt(unsigned index);
 struct Navigation {

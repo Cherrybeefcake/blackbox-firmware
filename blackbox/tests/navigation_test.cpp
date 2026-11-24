@@ -10,6 +10,7 @@ static void input(Key) { ++inputs; }
 static void refresh() {}
 const Lifecycle systemApp = {enter, refresh, input, leave};
 const Lifecycle settingsApp = {enter, refresh, input, leave};
+const Lifecycle modulesApp = {enter, refresh, input, leave};
 
 int main() {
     assert(appCount() == 12 && !appAt(appCount()));
@@ -23,7 +24,7 @@ int main() {
             assert(a.run->enter && a.run->leave && a.run->refresh && a.run->input);
         }
     }
-    assert(live == 2);
+    assert(live == 3);
     Navigation n;
     auto press = [&](Key key) { n.handle(key, Panel); };
     press(Key::Left);

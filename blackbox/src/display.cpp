@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "device.h"
+#include "modules.h"
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 namespace {
@@ -89,9 +90,76 @@ void settingsInput(Key k) {
     if (contrast != previousContrast) settingsEnter();
     else settingsRows();
 }
+unsigned selectedModule;
+bool moduleDetails;
+const char *availability(unsigned index) {
+    auto s = modules.slot(index);
+    if (index == 1 && !status.adv) return "Unconfirmed";
+    if (s.owner != Owner::None) return stateName(s.state);
+    if (modules.blocker(index) >= 0) return "Conflict";
+    return stateName(s.state);
+}
+void moduleView() {
+    const Profile &p = *modules.profile(selectedModule);
+    if (!moduleDetails) {
+        frame("MODULES", "Up/down: select   Enter: details");
+        unsigned first = selectedModule / 5 * 5;
+        for (unsigned i = first; i < moduleCount() && i < first + 5; ++i) {
+            int y = 25 + 17 * (i - first);
+            text(3, y, i == selectedModule ? ">" : " ", green);
+            text(13, y, modules.profile(i)->name, i == selectedModule ? green : TFT_WHITE);
+            text(144, y, availability(i), detail());
+        }
+        return;
+    }
+    frame("DETAILS", "Left: list   DEL / hold G0: Home");
+    text(5, 23, p.name, green, 2);
+    char line[40];
+    snprintf(line, sizeof(line), "%s | %s", busName(p.bus), availability(selectedModule));
+    text(5, 43, line, TFT_WHITE);
+    int len = snprintf(line, sizeof(line), "GPIO");
+    for (unsigned i = 0; i < p.count; ++i) len += snprintf(line + len, sizeof(line) - len, " %u", p.pins[i]);
+    text(5, 57, line, detail());
+    int block = modules.blocker(selectedModule);
+    if (block >= 0) snprintf(line, sizeof(line), "Blocked by %s", modules.profile(block)->name);
+    else snprintf(line, sizeof(line), "Owner: %s", ownerName(modules.slot(selectedModule).owner));
+    text(5, 71, line, TFT_WHITE);
+    int shared = modules.blocker(selectedModule, false);
+    if (block < 0 && shared >= 0) {
+        snprintf(line, sizeof(line), "Shares with %s", modules.profile(shared)->name);
+        text(5, 82, line, detail());
+    }
+    const char *action = "Profile only - driver disabled";
+    if (modules.slot(selectedModule).owner == Owner::System) action = "Reserved by board firmware";
+    if (p.start) action = status.adv ? "ENTER: check address (ACK only)" : "Disabled: ADV unconfirmed";
+    text(5, 99, action, detail());
+}
+void modulesEnter() {
+    selectedModule = 0;
+    moduleDetails = false;
+    moduleView();
+}
+void modulesInput(Key k) {
+    if (k == Key::None) return;
+    if (!moduleDetails) {
+        if (k == Key::Down) selectedModule = (selectedModule + 1) % moduleCount();
+        else if (k == Key::Up) selectedModule = (selectedModule + moduleCount() - 1) % moduleCount();
+        else if (k == Key::Right || k == Key::Open || k == Key::Step) moduleDetails = true;
+        else return;
+    } else if (k == Key::Left || k == Key::Step) {
+        moduleDetails = false;
+        if (k == Key::Step) selectedModule = (selectedModule + 1) % moduleCount();
+    } else if (k == Key::Open && modules.profile(selectedModule)->start) {
+        if (modules.acquire(selectedModule, Owner::Manager) == State::Active)
+            modules.release(selectedModule, Owner::Manager);
+    } else return;
+    moduleView();
+}
+void modulesLeave() { modules.releaseAll(Owner::Manager); }
 void idle() {}
 void ignore(Key) {}
 } // namespace
+const Lifecycle modulesApp = {modulesEnter, idle, modulesInput, modulesLeave};
 const Lifecycle systemApp = {systemEnter, systemRefresh, ignore, idle};
 const Lifecycle settingsApp = {settingsEnter, idle, settingsInput, idle};
 void refreshBar() {
@@ -110,7 +178,7 @@ void initDisplay() {
     ledcSetup(0, 5000, 8);
     ledcAttachPin(38, 0);
     ledcWrite(0, 255);
-    frame("STARTUP", "0.2.0");
+    frame("STARTUP", version);
     text(8, 45, "Device diagnostics", TFT_WHITE, 2);
 }
 void renderHome(unsigned selected, int previousIndex) {
