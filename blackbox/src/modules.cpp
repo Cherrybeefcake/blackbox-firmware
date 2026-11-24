@@ -44,7 +44,7 @@ State Modules::acquire(unsigned i, Owner owner) {
         // Only verified ADV expansion signals can be dynamically claimed.
         const unsigned pin = p.pins[n];
         if (!(pin == 1 || pin == 2 || pin == 3 || pin == 4 || pin == 5 || pin == 6 || pin == 8 || pin == 9 ||
-              pin == 12 || pin == 13 || pin == 14 || pin == 15 || pin == 39 || pin == 40))
+              pin == 12 || pin == 13 || pin == 14 || pin == 15 || pin == 39 || pin == 40 || pin == 44))
             return slot.state = State::Error;
         for (unsigned k = 0; k < n; ++k)
             if (pin == p.pins[k]) return slot.state = State::Error;

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "device.h"
+#include "lab.h"
 #include "subghz.h"
 #include "modules.h"
 #include <Arduino.h>
@@ -133,6 +134,8 @@ void moduleView() {
     const char *action = "Profile only - driver disabled";
     if (modules.slot(selectedModule).owner == Owner::System) action = "Reserved by board firmware";
     if (selectedModule == rf::moduleIndex) action = "Open Sub-GHz for RX diagnostics";
+    else if (selectedModule == lab::capSlot || selectedModule == lab::groveSlot) action = "Open NFC Center for reader status";
+    else if (selectedModule == lab::irSlot) action = "Open Infrared Lab for emitter status";
     else if (p.start) action = status.adv ? "ENTER: check address (ACK only)" : "Disabled: ADV unconfirmed";
     text(5, 99, action, detail());
 }
@@ -151,7 +154,7 @@ void modulesInput(Key k) {
     } else if (k == Key::Left || k == Key::Step) {
         moduleDetails = false;
         if (k == Key::Step) selectedModule = (selectedModule + 1) % moduleCount();
-    } else if (k == Key::Open && selectedModule != rf::moduleIndex && modules.profile(selectedModule)->start) {
+    } else if (k == Key::Open && selectedModule == 4 && modules.profile(selectedModule)->start) {
         if (modules.acquire(selectedModule, Owner::Manager) == State::Active)
             modules.release(selectedModule, Owner::Manager);
     } else return;
