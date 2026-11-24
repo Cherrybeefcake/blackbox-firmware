@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "bench.h"
+#include <climits>
+#include <cstdio>
 #include <cstring>
 namespace bench {
-unsigned baudIndex = 0;
+unsigned baudIndex = 0, i2cHz = 100000, errors = 0, toolErrors[4]{};
+void countError(Tool t) {
+    if (t <= Gpio && toolErrors[t] != UINT_MAX) ++toolErrors[t];
+    if (errors != UINT_MAX) ++errors;
+}
 char keyCharacter(uint8_t code, bool shift) {
     // ADV TCA8418 matrix wiring, derived from the Cardputer board key map.
-    const char *const plain[] = {
-        "`1234567890-=",
-        " qwertyuiop[]\\",
-        "  asdfghjkl;'",
-        "   zxcvbnm,./ "
-    };
+    const char *const plain[] = {"`1234567890-=", " qwertyuiop[]\\", "  asdfghjkl;'", "   zxcvbnm,./ "};
     const char *const upper[] = {"~!@#$%^&*()_+", " QWERTYUIOP{}|", "  ASDFGHJKL:\"", "   ZXCVBNM<>? "};
     unsigned u = code % 10, t = code / 10;
     if (u < 1 || u > 8 || t > 6) return 0;
@@ -18,86 +19,135 @@ char keyCharacter(uint8_t code, bool shift) {
     if ((row == 1 && !col) || (row == 2 && col < 2) || (row == 3 && col < 3)) return 0;
     return (shift ? upper : plain)[row][col];
 }
-void Console::append(uint8_t c) {
-    if (c == '\n' && lastCR) {
-        lastCR = false;
+void formatObservation(Observation o, bool hex, char (&out)[40]) {
+    unsigned pos = snprintf(out, sizeof out, "%5u ", o.ms);
+    for (unsigned i = 0; i < o.count && i < 8; ++i) {
+        auto c = o.bytes[i];
+        if (hex) pos += snprintf(out + pos, sizeof out - pos, "%02X ", c);
+        else out[pos++] = c >= 32 && c <= 126 ? char(c) : '.';
+    }
+    out[pos] = 0;
+}
+void Bench::ingest(const uint8_t *p, unsigned n, unsigned time) {
+    rx += n;
+    if (paused) {
+        skipped += n;
         return;
     }
-    lastCR = c == '\r';
-    bool newline = lastCR || c == '\n';
-    if (newline || col == 37) {
-        memmove(lines[0], lines[1], sizeof(lines[0]) * 2);
-        memset(lines[2], 0, sizeof(lines[2]));
-        col = 0;
+    while (n) {
+        Observation o{};
+        o.ms = time - started;
+        o.count = n > 8 ? 8 : n;
+        memcpy(o.bytes, p, o.count);
+        log.add(o);
+        p += o.count;
+        n -= o.count;
     }
-    if (!newline) lines[2][col++] = (c >= 32 && c <= 126) ? char(c) : '.';
+}
+void Bench::sample(unsigned pins, unsigned time) {
+    for (unsigned i = 0; i < 2; ++i)
+        if (sampled && ((pins ^ value) & (1U << i))) {
+            if (edges[i]) {
+                unsigned span = time - changed[i];
+                if (!minPulse[i] || span < minPulse[i]) minPulse[i] = span;
+                if (span > maxPulse[i]) maxPulse[i] = span;
+            }
+            if (edges[i] < UINT_MAX) ++edges[i];
+            changed[i] = time;
+        }
+    sampled = true;
+    value = pins;
+    trace.add(uint8_t(pins));
+    last = time;
+}
+void Bench::clear() {
+    clearedAt = duration;
+    log = {};
+    rx = skipped = 0;
 }
 void Bench::stop(const char *why) {
-    if (active) modules.release(slots[tool], Owner::Application);
-    active = false;
+    if (active && !simulated) modules.release(slots[tool], Owner::Application);
+    active = paused = false;
     message = why;
-    if (tool == Uart) console = Console{};
 }
-void Bench::start(unsigned time) {
+void Bench::start(unsigned time, bool misoLow) {
     if (active || tool > Gpio) return;
     Tool selected = tool;
+    bool demo = simulated;
     *this = Bench{};
     tool = selected;
-    State state = modules.acquire(slots[tool], Owner::Application);
-    if (state != State::Active) {
-        message = stateName(state);
-        return;
+    simulated = demo;
+    started = last = time;
+    if (!simulated) {
+        if (modules.blocker(slots[tool]) >= 0) {
+            message = "Resource conflict";
+            countError(tool);
+            return;
+        }
+        if (tool == Spi) {
+            message = "Inventory only";
+            return;
+        }
+        State result = modules.acquire(slots[tool], Owner::Application);
+        if (result != State::Active) {
+            message = stateName(result);
+            countError(tool);
+            return;
+        }
     }
     active = true;
-    started = time;
-    last = time;
     message = "Running";
     if (tool == Spi) {
-        constexpr uint8_t pattern[] = {0x00, 0xa5, 0x5a, 0xff};
-        for (unsigned i = 0; i < 4; ++i) echo[i] = transfer(pattern[i]);
+        // Fixed internal fixture; no SPI transport exists in Hardware Lab.
+        const uint8_t fixture[] = {0x00, 0xa5, 0x5a, 0xff};
+        for (unsigned byte = 0; byte < sizeof echo; ++byte) {
+            for (int bit = 7; bit >= 0; --bit) {
+                unsigned mosi = (fixture[byte] >> bit) & 1U;
+                echo[byte] = (echo[byte] << 1) | (misoLow ? 0 : mosi);
+            }
+        }
         sampled = true;
-        stop(memcmp(pattern, echo, 4) == 0 ? "Loopback matched" : "Loopback mismatch");
-    } else if (tool == Gpio) {
-        value = levels();
-        sampled = true;
-    }
+        bool match = !memcmp(echo, fixture, sizeof echo);
+        if (!match) countError(tool);
+        stop(match ? "Fixture pass" : "Fixture mismatch");
+    } else if (tool == Gpio) sample(simulated ? 0 : levels(), time);
 }
 void Bench::poll(unsigned time) {
     if (!active) return;
-    if (time - started >= 60000) {
-        stop("60 s limit");
+    duration = time - started;
+    if (duration >= 60000) {
+        stop("Session limit");
         return;
     }
     if (tool == Uart) {
-        uint8_t data[256];
-        int count = receive(data, sizeof data);
-        if (count < 0) {
-            stop("UART read error");
-            return;
+        if (simulated) {
+            if (time - last >= 200) {
+                const uint8_t frame[] = {'L', 'A', 'B', 0, uint8_t(duration / 200), 13, 10};
+                ingest(frame, sizeof frame, time);
+                last = time;
+            }
+        } else {
+            uint8_t data[256];
+            int n = receive(data, sizeof data);
+            if (n < 0) {
+                countError(tool);
+                stop("UART read error");
+            } else ingest(data, n, time);
         }
-        for (int i = 0; i < count; ++i) console.append(data[i]);
-        rx += count;
     } else if (tool == I2c) {
-        int result = probe(address);
+        int result = simulated ? ((address == 0x28 || address == 0x50) ? 0 : 2) : probe(address);
         if (result == 0) {
-            acknowledged[address / 8] |= 1U << (address % 8);
+            ack[address / 8] |= 1U << (address % 8);
             ++found;
         } else if (result != 2) {
-            stop(result == 5 ? "I2C timed out" : "I2C bus error");
+            countError(tool);
+            stop(result == 5 ? "Bus timeout" : "Bus error");
             return;
         }
-        if (++address == 0x78) stop("Scan complete");
+        if (++address == 120) stop("Scan complete");
     } else if (tool == Gpio && time - last >= 20) {
-        unsigned next = levels();
-        for (unsigned i = 0; i < 2; ++i) edges[i] += (next ^ value) >> i & 1U;
-        value = next;
-        last = time;
+        unsigned pins = simulated ? ((duration / 150) % 2) | (((duration / 260) % 2) << 1) : levels();
+        sample(pins, time);
     }
-}
-double calculate(unsigned formula, double a, double b) {
-    // V/kOhm = mA, kOhm * uF = ms, kOhm in parallel = kOhm.
-    if (formula == 0) return a / b;
-    if (formula == 1) return a * b;
-    return a * b / (a + b);
 }
 } // namespace bench

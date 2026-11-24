@@ -2,7 +2,9 @@
 
 The independent Cardputer ADV target builds an explicit source allowlist in blackbox/platformio.ini. Startup initializes the display, keyboard and board status. Registry entries define a screen lifecycle and required capabilities. The main loop routes one input event to the active application and refreshes status once per second.
 
-Hardware Lab and the Terminal shortcut share one session. The application model owns fixed-size display data and session deadlines. The I/O adapter controls peripherals through Module Manager start and stop callbacks. The UI consumes keyboard characters only while a text field is active. Calculations, pin reference pages and system metrics operate without acquiring an external bus. [0.7.0 Hardware Lab](HARDWARE_LAB.md)
+Terminal owns one receive-only session across its monitor, viewers, configuration and statistics pages. Hardware Lab shares the session model for its selectable instruments. Fixed rings retain observations and sampled inputs in RAM. The default simulation runs through the same application lifecycle as the gated hardware adapters. Module Manager arbitrates physical buses and pins. SPI inventory reads the ownership registry and its transaction fixture runs entirely in memory. Terminal and Hardware Lab each release their session on dashboard exit.
+
+The offline calculator and reference modules use fixed tables. System Profiler uses ESP32 runtime counters, linker boundaries and the running application's partition metadata. Live screens refresh their content region using the existing display service. [Hardware Lab implementation and measurements](HARDWARE_LAB.md)
 
 ## Historical upstream audit and initial dashboard proposal
 

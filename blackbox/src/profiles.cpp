@@ -6,6 +6,7 @@
 #include <Wire.h>
 namespace {
 // Physical revision and electrical validation pending for all three lab profiles.
+constexpr bool uartValidated=false, groveInspectorValidated=false, gpioMonitorValidated=false;
 constexpr bool capValidated=false, groveValidated=false, emitterValidated=false;
 bool started;
 State groveCheck() {
@@ -32,13 +33,13 @@ const Profile inventory[] = {
      rf::confirmed ? rf::initChip : nullptr,
      rf::powerDown                                                                                                 },
     {"u219-nfc", "U219 ST25R3916",  Bus::ExpansionSPI,  8, {40, 14, 39, 6, 4, 3, 5, 12}, capValidated ? lab::capStart : nullptr, lab::readerStop  },
-    {"ext-uart", "EXT UART",        Bus::ExpansionUART, 2, {13, 15}, bench::uartStart, bench::uartStop  },
+    {"ext-uart", "EXT UART",        Bus::ExpansionUART, 2, {13, 15}, uartValidated ? bench::uartStart : nullptr, bench::uartStop  },
     {"sd",       "microSD",         Bus::ExpansionSPI,  4, {40, 14, 39, 12},                  nullptr,    nullptr  },
     {"u216", "U216 Unit NFC", Bus::GroveI2C, 2, {2, 1}, groveValidated ? lab::groveStart : nullptr, lab::readerStop},
     {"adv-ir", "ADV IR emitter", Bus::GPIO, 1, {44}, emitterValidated ? lab::emitterStart : nullptr, lab::emitterStop},
-    {"bench-i2c","Grove I2C scan",Bus::GroveI2C,2,{2,1},bench::i2cStart,bench::i2cStop},
-    {"bench-spi","EXT SPI loopback",Bus::ExpansionSPI,6,{40,14,39,5,6,12},bench::spiStart,bench::spiStop},
-    {"bench-gpio","Grove inputs",Bus::GPIO,2,{2,1},bench::gpioStart,bench::gpioStop}
+    {"bench-i2c","Grove I2C scan",Bus::GroveI2C,2,{2,1},groveInspectorValidated ? bench::i2cStart : nullptr,bench::i2cStop},
+    {"bench-spi","EXT SPI diagnostics",Bus::ExpansionSPI,6,{40,14,39,5,6,12},nullptr,nullptr},
+    {"bench-gpio","Grove inputs",Bus::GPIO,2,{2,1},gpioMonitorValidated ? bench::gpioStart : nullptr,bench::gpioStop}
 };
 } // namespace
 unsigned moduleCount() { return sizeof(inventory) / sizeof(inventory[0]); }

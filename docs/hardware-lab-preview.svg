@@ -1,89 +1,86 @@
-<svg xmlns='http://www.w3.org/2000/svg' width='984' height='1160' viewBox='0 0 492 580' font-family='monospace' font-size='9'><rect width='492' height='580' fill='#212728'/><text x='4' y='13' fill='white'>HARDWARE LAB / SYNTHETIC HOST FIXTURES</text>
+<svg xmlns='http://www.w3.org/2000/svg' width='984' height='1160' viewBox='0 0 492 580' font-family='monospace' font-size='9'><rect width='492' height='580' fill='#212728'/><text x='4' y='13' fill='white'>HOST PREVIEW / SYNTHETIC READINGS</text>
 <g transform='translate(3 18)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
-<text x='80' y='12' fill='white'>UART Terminal</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>9600 8N1  RX15 TX13  Running</text>
-<text x='4' y='45' fill='white'></text>
-<text x='4' y='59' fill='white'>LAB READY</text>
-<text x='4' y='73' fill='white'></text>
-<text x='4' y='87' fill='white'>Received 11 bytes</text>
-<text x='4' y='107' fill='#10cf81'>Compose line</text>
+<text x='80' y='12' fill='white'>Hex Viewer</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>SIM | Running</text>
+<text x='4' y='44' fill='white'>HEX | ms since start | 7 B</text>
+<text x='4' y='58' fill='white'></text>
+<text x='4' y='72' fill='white'></text>
+<text x='4' y='86' fill='white'>  200 4C 41 42 00 01 0D 0A </text>
+<text x='4' y='108' fill='#10cf81'>Older observations</text>
 </g>
 <g transform='translate(247 18)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
 <text x='80' y='12' fill='white'>I2C Inspector</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>Scan complete</text>
-<text x='4' y='45' fill='white'>Grove 100 kHz   112/112   ACK 2</text>
-<text x='4' y='59' fill='white'>28 50 </text>
-<text x='4' y='73' fill='white'></text>
-<text x='4' y='87' fill='white'></text>
-<text x='4' y='107' fill='#10cf81'>Scan addresses</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>SIM | Scan complete</text>
+<text x='4' y='44' fill='white'>7-bit map  00..7F   ACK 2</text>
+<rect x='118' y='53' width='2' height='3' fill='#999'/><rect x='132' y='53' width='2' height='3' fill='#999'/><rect x='146' y='53' width='2' height='3' fill='#999'/><rect x='160' y='53' width='2' height='3' fill='#999'/><rect x='174' y='53' width='2' height='3' fill='#999'/><rect x='188' y='53' width='2' height='3' fill='#999'/><rect x='202' y='53' width='2' height='3' fill='#999'/><rect x='216' y='53' width='2' height='3' fill='#999'/><rect x='6' y='58' width='2' height='3' fill='#999'/><rect x='20' y='58' width='2' height='3' fill='#999'/><rect x='34' y='58' width='2' height='3' fill='#999'/><rect x='48' y='58' width='2' height='3' fill='#999'/><rect x='62' y='58' width='2' height='3' fill='#999'/><rect x='76' y='58' width='2' height='3' fill='#999'/><rect x='90' y='58' width='2' height='3' fill='#999'/><rect x='104' y='58' width='2' height='3' fill='#999'/><rect x='118' y='58' width='2' height='3' fill='#999'/><rect x='132' y='58' width='2' height='3' fill='#999'/><rect x='146' y='58' width='2' height='3' fill='#999'/><rect x='160' y='58' width='2' height='3' fill='#999'/><rect x='174' y='58' width='2' height='3' fill='#999'/><rect x='188' y='58' width='2' height='3' fill='#999'/><rect x='202' y='58' width='2' height='3' fill='#999'/><rect x='216' y='58' width='2' height='3' fill='#999'/><rect x='6' y='63' width='2' height='3' fill='#999'/><rect x='20' y='63' width='2' height='3' fill='#999'/><rect x='34' y='63' width='2' height='3' fill='#999'/><rect x='48' y='63' width='2' height='3' fill='#999'/><rect x='62' y='63' width='2' height='3' fill='#999'/><rect x='76' y='63' width='2' height='3' fill='#999'/><rect x='90' y='63' width='2' height='3' fill='#999'/><rect x='104' y='63' width='2' height='3' fill='#999'/><rect x='118' y='63' width='10' height='3' fill='#10cf81'/><rect x='132' y='63' width='2' height='3' fill='#999'/><rect x='146' y='63' width='2' height='3' fill='#999'/><rect x='160' y='63' width='2' height='3' fill='#999'/><rect x='174' y='63' width='2' height='3' fill='#999'/><rect x='188' y='63' width='2' height='3' fill='#999'/><rect x='202' y='63' width='2' height='3' fill='#999'/><rect x='216' y='63' width='2' height='3' fill='#999'/><rect x='6' y='68' width='2' height='3' fill='#999'/><rect x='20' y='68' width='2' height='3' fill='#999'/><rect x='34' y='68' width='2' height='3' fill='#999'/><rect x='48' y='68' width='2' height='3' fill='#999'/><rect x='62' y='68' width='2' height='3' fill='#999'/><rect x='76' y='68' width='2' height='3' fill='#999'/><rect x='90' y='68' width='2' height='3' fill='#999'/><rect x='104' y='68' width='2' height='3' fill='#999'/><rect x='118' y='68' width='2' height='3' fill='#999'/><rect x='132' y='68' width='2' height='3' fill='#999'/><rect x='146' y='68' width='2' height='3' fill='#999'/><rect x='160' y='68' width='2' height='3' fill='#999'/><rect x='174' y='68' width='2' height='3' fill='#999'/><rect x='188' y='68' width='2' height='3' fill='#999'/><rect x='202' y='68' width='2' height='3' fill='#999'/><rect x='216' y='68' width='2' height='3' fill='#999'/><rect x='6' y='73' width='2' height='3' fill='#999'/><rect x='20' y='73' width='2' height='3' fill='#999'/><rect x='34' y='73' width='2' height='3' fill='#999'/><rect x='48' y='73' width='2' height='3' fill='#999'/><rect x='62' y='73' width='2' height='3' fill='#999'/><rect x='76' y='73' width='2' height='3' fill='#999'/><rect x='90' y='73' width='2' height='3' fill='#999'/><rect x='104' y='73' width='2' height='3' fill='#999'/><rect x='118' y='73' width='2' height='3' fill='#999'/><rect x='132' y='73' width='2' height='3' fill='#999'/><rect x='146' y='73' width='2' height='3' fill='#999'/><rect x='160' y='73' width='2' height='3' fill='#999'/><rect x='174' y='73' width='2' height='3' fill='#999'/><rect x='188' y='73' width='2' height='3' fill='#999'/><rect x='202' y='73' width='2' height='3' fill='#999'/><rect x='216' y='73' width='2' height='3' fill='#999'/><rect x='6' y='78' width='10' height='3' fill='#10cf81'/><rect x='20' y='78' width='2' height='3' fill='#999'/><rect x='34' y='78' width='2' height='3' fill='#999'/><rect x='48' y='78' width='2' height='3' fill='#999'/><rect x='62' y='78' width='2' height='3' fill='#999'/><rect x='76' y='78' width='2' height='3' fill='#999'/><rect x='90' y='78' width='2' height='3' fill='#999'/><rect x='104' y='78' width='2' height='3' fill='#999'/><rect x='118' y='78' width='2' height='3' fill='#999'/><rect x='132' y='78' width='2' height='3' fill='#999'/><rect x='146' y='78' width='2' height='3' fill='#999'/><rect x='160' y='78' width='2' height='3' fill='#999'/><rect x='174' y='78' width='2' height='3' fill='#999'/><rect x='188' y='78' width='2' height='3' fill='#999'/><rect x='202' y='78' width='2' height='3' fill='#999'/><rect x='216' y='78' width='2' height='3' fill='#999'/><rect x='6' y='83' width='2' height='3' fill='#999'/><rect x='20' y='83' width='2' height='3' fill='#999'/><rect x='34' y='83' width='2' height='3' fill='#999'/><rect x='48' y='83' width='2' height='3' fill='#999'/><rect x='62' y='83' width='2' height='3' fill='#999'/><rect x='76' y='83' width='2' height='3' fill='#999'/><rect x='90' y='83' width='2' height='3' fill='#999'/><rect x='104' y='83' width='2' height='3' fill='#999'/><rect x='118' y='83' width='2' height='3' fill='#999'/><rect x='132' y='83' width='2' height='3' fill='#999'/><rect x='146' y='83' width='2' height='3' fill='#999'/><rect x='160' y='83' width='2' height='3' fill='#999'/><rect x='174' y='83' width='2' height='3' fill='#999'/><rect x='188' y='83' width='2' height='3' fill='#999'/><rect x='202' y='83' width='2' height='3' fill='#999'/><rect x='216' y='83' width='2' height='3' fill='#999'/><rect x='6' y='88' width='2' height='3' fill='#999'/><rect x='20' y='88' width='2' height='3' fill='#999'/><rect x='34' y='88' width='2' height='3' fill='#999'/><rect x='48' y='88' width='2' height='3' fill='#999'/><rect x='62' y='88' width='2' height='3' fill='#999'/><rect x='76' y='88' width='2' height='3' fill='#999'/><rect x='90' y='88' width='2' height='3' fill='#999'/><rect x='104' y='88' width='2' height='3' fill='#999'/><text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 <g transform='translate(3 158)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
 <text x='80' y='12' fill='white'>SPI Diagnostics</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>Loopback matched</text>
-<text x='4' y='45' fill='white'>Bare EXT: bridge G14 to G39</text>
-<text x='4' y='59' fill='white'>Remove SD and accessories first</text>
-<text x='4' y='73' fill='white'>M0 100 kHz   TX 00 A5 5A FF</text>
-<text x='4' y='87' fill='white'>Observed RX     00 A5 5A FF</text>
-<text x='4' y='107' fill='#10cf81'>Run loopback</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>SIM | Fixture pass</text>
+<text x='4' y='44' fill='white'>EXT SCK40 MOSI14 MISO39</text>
+<text x='4' y='58' fill='white'>Fixture: 100 kHz | mode 0 MSB</text>
+<text x='4' y='72' fill='white'>Fixture: Loopback</text>
+<text x='4' y='86' fill='white'>RX 00 A5 5A FF | 32 clocks</text>
+<text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 <g transform='translate(247 158)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
 <text x='80' y='12' fill='white'>GPIO Monitor</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>Running</text>
-<text x='4' y='45' fill='white'>Grove inputs | shared ground</text>
-<text x='4' y='59' fill='white'>G2   HIGH   changes 0</text>
-<text x='4' y='73' fill='white'>G1   LOW   changes 0</text>
-<text x='4' y='87' fill='white'>20 ms samples; short pulses may miss</text>
-<text x='4' y='107' fill='#10cf81'>Back</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>SIM | Running</text>
+<text x='4' y='44' fill='white'>G2  LOW   changes 14</text>
+<text x='4' y='58' fill='white'>G1  LOW   changes 8</text>
+<text x='4' y='72' fill='white'>G2 / G1 input history</text>
+<rect x='5' y='84' width='5' height='2' fill='#10cf81'/><rect x='5' y='91' width='5' height='2' fill='#10cf81'/><rect x='12' y='84' width='5' height='2' fill='#10cf81'/><rect x='12' y='91' width='5' height='2' fill='#10cf81'/><rect x='19' y='80' width='5' height='2' fill='#10cf81'/><rect x='19' y='91' width='5' height='2' fill='#10cf81'/><rect x='26' y='80' width='5' height='2' fill='#10cf81'/><rect x='26' y='91' width='5' height='2' fill='#10cf81'/><rect x='33' y='80' width='5' height='2' fill='#10cf81'/><rect x='33' y='91' width='5' height='2' fill='#10cf81'/><rect x='40' y='80' width='5' height='2' fill='#10cf81'/><rect x='40' y='91' width='5' height='2' fill='#10cf81'/><rect x='47' y='80' width='5' height='2' fill='#10cf81'/><rect x='47' y='91' width='5' height='2' fill='#10cf81'/><rect x='54' y='80' width='5' height='2' fill='#10cf81'/><rect x='54' y='91' width='5' height='2' fill='#10cf81'/><rect x='61' y='80' width='5' height='2' fill='#10cf81'/><rect x='61' y='91' width='5' height='2' fill='#10cf81'/><rect x='68' y='84' width='5' height='2' fill='#10cf81'/><rect x='68' y='91' width='5' height='2' fill='#10cf81'/><rect x='75' y='84' width='5' height='2' fill='#10cf81'/><rect x='75' y='87' width='5' height='2' fill='#10cf81'/><rect x='82' y='84' width='5' height='2' fill='#10cf81'/><rect x='82' y='87' width='5' height='2' fill='#10cf81'/><rect x='89' y='84' width='5' height='2' fill='#10cf81'/><rect x='89' y='87' width='5' height='2' fill='#10cf81'/><rect x='96' y='84' width='5' height='2' fill='#10cf81'/><rect x='96' y='87' width='5' height='2' fill='#10cf81'/><rect x='103' y='84' width='5' height='2' fill='#10cf81'/><rect x='103' y='87' width='5' height='2' fill='#10cf81'/><rect x='110' y='84' width='5' height='2' fill='#10cf81'/><rect x='110' y='87' width='5' height='2' fill='#10cf81'/><rect x='117' y='84' width='5' height='2' fill='#10cf81'/><rect x='117' y='87' width='5' height='2' fill='#10cf81'/><rect x='124' y='80' width='5' height='2' fill='#10cf81'/><rect x='124' y='87' width='5' height='2' fill='#10cf81'/><rect x='131' y='80' width='5' height='2' fill='#10cf81'/><rect x='131' y='87' width='5' height='2' fill='#10cf81'/><rect x='138' y='80' width='5' height='2' fill='#10cf81'/><rect x='138' y='87' width='5' height='2' fill='#10cf81'/><rect x='145' y='80' width='5' height='2' fill='#10cf81'/><rect x='145' y='87' width='5' height='2' fill='#10cf81'/><rect x='152' y='80' width='5' height='2' fill='#10cf81'/><rect x='152' y='87' width='5' height='2' fill='#10cf81'/><rect x='159' y='80' width='5' height='2' fill='#10cf81'/><rect x='159' y='87' width='5' height='2' fill='#10cf81'/><rect x='166' y='80' width='5' height='2' fill='#10cf81'/><rect x='166' y='91' width='5' height='2' fill='#10cf81'/><rect x='173' y='84' width='5' height='2' fill='#10cf81'/><rect x='173' y='91' width='5' height='2' fill='#10cf81'/><rect x='180' y='84' width='5' height='2' fill='#10cf81'/><rect x='180' y='91' width='5' height='2' fill='#10cf81'/><rect x='187' y='84' width='5' height='2' fill='#10cf81'/><rect x='187' y='91' width='5' height='2' fill='#10cf81'/><rect x='194' y='84' width='5' height='2' fill='#10cf81'/><rect x='194' y='91' width='5' height='2' fill='#10cf81'/><rect x='201' y='84' width='5' height='2' fill='#10cf81'/><rect x='201' y='91' width='5' height='2' fill='#10cf81'/><rect x='208' y='84' width='5' height='2' fill='#10cf81'/><rect x='208' y='91' width='5' height='2' fill='#10cf81'/><rect x='215' y='84' width='5' height='2' fill='#10cf81'/><rect x='215' y='91' width='5' height='2' fill='#10cf81'/><rect x='222' y='84' width='5' height='2' fill='#10cf81'/><rect x='222' y='91' width='5' height='2' fill='#10cf81'/><text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 <g transform='translate(3 298)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
 <text x='80' y='12' fill='white'>Calculators</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>Ohm's law</text>
-<text x='4' y='45' fill='white'>A  3.3 V</text>
-<text x='4' y='59' fill='white'>B  1 kOhm</text>
-<text x='4' y='73' fill='#10cf81'>Result   3.3 mA</text>
-<text x='4' y='87' fill='white'>Ready</text>
-<text x='4' y='107' fill='#10cf81'>Next formula</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>Ohm: current</text>
+<text x='4' y='44' fill='white'>Voltage V: 3.3</text>
+<text x='4' y='58' fill='white'>0.0033 A</text>
+<text x='4' y='72' fill='white'></text>
+<text x='4' y='86' fill='white'></text>
+<text x='4' y='108' fill='#10cf81'>Next calculator</text>
 </g>
 <g transform='translate(247 298)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
-<text x='80' y='12' fill='white'>Pinout reference</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>EXT | 14-pin header</text>
-<text x='4' y='45' fill='white'>1 G3 RESET     2 5VIN</text>
-<text x='4' y='59' fill='white'>3 G4 INT       4 GND</text>
-<text x='4' y='73' fill='white'>5 G6 BUSY      6 5VOUT</text>
-<text x='4' y='87' fill='white'>7 G40 SCK      8 G8 SDA</text>
-<text x='4' y='107' fill='#10cf81'>Next pin group</text>
+<text x='80' y='12' fill='white'>Pinout Library</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>EXT header 1-8</text>
+<text x='4' y='44' fill='white'>1 G3 RESET     2 5VIN</text>
+<text x='4' y='58' fill='white'>3 G4 INT       4 GND</text>
+<text x='4' y='72' fill='white'>5 G6 BUSY      6 5VOUT</text>
+<text x='4' y='86' fill='white'>7 G40 SCK      8 G8 SDA</text>
+<text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 <g transform='translate(3 438)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
-<text x='80' y='12' fill='white'>System Profiler</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>CPU 240 MHz   Uptime 123 s</text>
-<text x='4' y='45' fill='white'>Free heap       182000 B</text>
-<text x='4' y='59' fill='white'>Lowest heap     159024 B</text>
-<text x='4' y='73' fill='white'>Largest block   110096 B</text>
-<text x='4' y='87' fill='white'>Physical flash  8192 KiB</text>
-<text x='4' y='107' fill='#10cf81'>Back</text>
+<text x='80' y='12' fill='white'>Electronics Ref</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>UART logic levels</text>
+<text x='4' y='44' fill='white'>TTL UART: common ground + RX</text>
+<text x='4' y='58' fill='white'>Remote TX -> ADV G15</text>
+<text x='4' y='72' fill='white'>RS-232 needs a level converter</text>
+<text x='4' y='86' fill='white'>RS-485 needs a differential PHY</text>
+<text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 <g transform='translate(247 438)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
-<text x='80' y='12' fill='white'>Hardware Lab</text>
-<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
-<text x='4' y='31' fill='#10cf81'>> UART Terminal</text>
-<text x='4' y='45' fill='white'>  I2C Inspector</text>
-<text x='4' y='59' fill='white'>  SPI Diagnostics</text>
-<text x='4' y='73' fill='white'>  GPIO Monitor</text>
-<text x='4' y='87' fill='white'>  Calculators</text>
+<text x='80' y='12' fill='white'>System Profiler</text>
+<text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
+<text x='4' y='30' fill='#10cf81'>DEVICE | System Profiler</text>
+<text x='4' y='44' fill='white'>Heap 182000 B | min 159024 B</text>
+<text x='4' y='58' fill='white'>Largest block 110096 B</text>
+<text x='4' y='72' fill='white'>Static data + BSS 74000 B</text>
+<text x='4' y='86' fill='white'>240 MHz | uptime 123 s</text>
+<text x='4' y='108' fill='#10cf81'>Next page</text>
 </g>
 </svg>

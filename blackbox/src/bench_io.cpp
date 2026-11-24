@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "bench.h"
+#include "device.h"
+#include "wireless.h"
 #include <Arduino.h>
-#include <SPI.h>
+#include <esp_image_format.h>
+#include <esp_ota_ops.h>
+extern "C" {
+extern char _data_start[], _data_end[], _bss_start[], _bss_end[];
+}
 #include <Wire.h>
 #include <driver/gpio.h>
 #include <driver/uart.h>
@@ -9,7 +15,7 @@
 namespace bench {
 namespace {
 constexpr auto port = UART_NUM_1;
-bool installed, uartPins, wireStarted, spiPins;
+bool installed, uartPins, wireStarted;
 } // namespace
 State uartStart() {
     if (uart_is_driver_installed(port)) return State::Error;
@@ -24,28 +30,23 @@ State uartStart() {
     config.source_clk = UART_SCLK_APB;
     if (uart_param_config(port, &config) != ESP_OK) return State::Error;
     uartPins = true;
-    return uart_set_pin(port, 13, 15, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE) == ESP_OK ? State::Available
-                                                                                        : State::Error;
+    return uart_set_pin(port, UART_PIN_NO_CHANGE, 15, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE) == ESP_OK
+               ? State::Available
+               : State::Error;
 }
 void uartStop() {
     if (installed) {
-        uart_wait_tx_done(port, pdMS_TO_TICKS(45)); // Drain one composed line at 9600 baud.
         uart_driver_delete(port);
         installed = false;
     }
     if (uartPins) {
-        gpio_reset_pin(GPIO_NUM_13);
         gpio_reset_pin(GPIO_NUM_15);
         uartPins = false;
     }
 }
 int receive(uint8_t *data, unsigned capacity) { return uart_read_bytes(port, data, capacity, 0); }
-bool transmit(const char *line, unsigned len) {
-    // A single nonblocking FIFO write. Never retry a partially sent line.
-    return uart_tx_chars(port, line, len) == int(len);
-}
 State i2cStart() {
-    wireStarted = Wire.begin(2, 1, 100000);
+    wireStarted = Wire.begin(2, 1, i2cHz);
     if (wireStarted) Wire.setTimeOut(10);
     return wireStarted ? State::Available : State::Error;
 }
@@ -54,31 +55,9 @@ void i2cStop() {
     wireStarted = false;
 }
 int probe(uint8_t address) {
+    if (address < 8 || address > 119) return 4;
     Wire.beginTransmission(address);
     return Wire.endTransmission(true);
-}
-State spiStart() {
-    if (SPI.bus()) return State::Error;
-    spiPins = true;
-    for (int pin : {5, 6, 12}) {
-        digitalWrite(pin, HIGH);
-        pinMode(pin, OUTPUT);
-        digitalWrite(pin, HIGH);
-    }
-    SPI.begin(40, 39, 14, -1);
-    return SPI.bus() ? State::Available : State::Error;
-}
-void spiStop() {
-    if (!spiPins) return;
-    spiPins = false;
-    SPI.end();
-    for (int pin : {5, 6, 12, 40, 39, 14}) pinMode(pin, INPUT);
-}
-uint8_t transfer(uint8_t byte) {
-    SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE0));
-    uint8_t seen = SPI.transfer(byte);
-    SPI.endTransaction();
-    return seen;
 }
 State gpioStart() {
     pinMode(2, INPUT);
@@ -92,13 +71,27 @@ void gpioStop() {
 unsigned levels() { return digitalRead(2) | (digitalRead(1) << 1); }
 unsigned now() { return millis(); }
 Metrics metrics() {
+    static const auto *part = esp_ota_get_running_partition();
+    static const unsigned used = []() {
+        if (!part) return 0U;
+        esp_image_metadata_t metadata{};
+        esp_partition_pos_t location{part->address, part->size};
+        return esp_image_get_metadata(&location, &metadata) == ESP_OK ? unsigned(metadata.image_len) : 0U;
+    }();
+    const char *owners[] = {"Idle", "Wi-Fi Explorer", "Channel Analyzer", "RSSI Meter", "BLE Explorer"};
+
     return {
         ESP.getCpuFreqMHz(),
         ESP.getFreeHeap(),
         ESP.getMinFreeHeap(),
         ESP.getMaxAllocHeap(),
         ESP.getFlashChipSize(),
-        unsigned(esp_timer_get_time() / 1000000)
+        unsigned(esp_timer_get_time() / 1000000),
+        unsigned(uintptr_t(_data_end) - uintptr_t(_data_start) + uintptr_t(_bss_end) - uintptr_t(_bss_start)),
+        used,
+        part ? part->size : 0U,
+        status.mv,
+        air::session.fault ? "Radio fault" : owners[unsigned(air::session.owner)]
     };
 }
 } // namespace bench

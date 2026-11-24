@@ -11,8 +11,9 @@ check() {
     "$out/$test_name" > "$out/$test_name.out"
     printf '%s passed\n' "$test_name"
 }
-check bench_test -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_ui.cpp
-check bench_preview -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_ui.cpp
+check bench_transport_test src/modules.cpp src/bench.cpp
+check bench_test -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_offline.cpp src/bench_reference.cpp src/bench_ui.cpp
+check bench_preview -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_offline.cpp src/bench_reference.cpp src/bench_ui.cpp
 check navigation_test src/navigation.cpp src/registry.cpp
 check modules_test src/navigation.cpp src/registry.cpp src/modules.cpp
 check wireless_test src/wireless_model.cpp
