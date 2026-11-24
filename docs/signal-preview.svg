@@ -1,0 +1,60 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='984' height='896' viewBox='0 0 492 448' font-family='monospace' font-size='9'><rect width='492' height='448' fill='#24292b'/><text x='4' y='13' fill='white'>HOST PREVIEW | SYNTHETIC RF DATA</text>
+<g transform='translate(4 20)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Spectrum Analyzer</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>SIMULATED | Measuring</text>
+<text x='4' y='44' fill='white'>433900 kHz   sweep</text>
+<text x='4' y='56' fill='white'>50 kHz step | 102 kHz filter</text>
+<rect x='5' y='80' width='8' height='5' fill='#10cf81'/><rect x='5' y='78' width='8' height='1' fill='#999'/><rect x='18' y='78' width='8' height='7' fill='#10cf81'/><rect x='18' y='78' width='8' height='1' fill='#999'/><rect x='31' y='78' width='8' height='7' fill='#10cf81'/><rect x='31' y='76' width='8' height='1' fill='#999'/><rect x='44' y='75' width='8' height='10' fill='#10cf81'/><rect x='44' y='75' width='8' height='1' fill='#999'/><rect x='57' y='72' width='8' height='13' fill='#10cf81'/><rect x='57' y='72' width='8' height='1' fill='#999'/><rect x='70' y='72' width='8' height='13' fill='#10cf81'/><rect x='70' y='70' width='8' height='1' fill='#999'/><rect x='83' y='70' width='8' height='15' fill='#10cf81'/><rect x='83' y='70' width='8' height='1' fill='#999'/><rect x='96' y='67' width='8' height='18' fill='#10cf81'/><rect x='96' y='67' width='8' height='1' fill='#999'/><rect x='109' y='67' width='8' height='18' fill='#10cf81'/><rect x='109' y='65' width='8' height='1' fill='#999'/><rect x='122' y='68' width='8' height='17' fill='#10cf81'/><rect x='122' y='68' width='8' height='1' fill='#999'/><rect x='135' y='69' width='8' height='16' fill='#10cf81'/><rect x='135' y='69' width='8' height='1' fill='#999'/><rect x='148' y='72' width='8' height='13' fill='#10cf81'/><rect x='148' y='70' width='8' height='1' fill='#999'/><rect x='161' y='73' width='8' height='12' fill='#10cf81'/><rect x='161' y='73' width='8' height='1' fill='#999'/><rect x='174' y='74' width='8' height='11' fill='#10cf81'/><rect x='174' y='74' width='8' height='1' fill='#999'/><rect x='187' y='78' width='8' height='7' fill='#10cf81'/><rect x='187' y='78' width='8' height='1' fill='#999'/><rect x='200' y='78' width='8' height='7' fill='#10cf81'/><rect x='200' y='78' width='8' height='1' fill='#999'/><rect x='213' y='78' width='8' height='7' fill='#10cf81'/><rect x='213' y='78' width='8' height='1' fill='#999'/><text x='4' y='95' fill='white'>Peak 433900 kHz  -49 dBm</text>
+<text x='4' y='109' fill='#10cf81'>> Stop</text>
+</g>
+<g transform='translate(248 20)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Frequency Monitor</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>SIMULATED | Measuring</text>
+<text x='4' y='44' fill='white'>433900 kHz   fixed</text>
+<rect x='5' y='65' width='4' height='20' fill='#10cf81'/><rect x='12' y='67' width='4' height='18' fill='#10cf81'/><rect x='19' y='66' width='4' height='19' fill='#10cf81'/><rect x='26' y='64' width='4' height='21' fill='#10cf81'/><rect x='33' y='66' width='4' height='19' fill='#10cf81'/><rect x='40' y='65' width='4' height='20' fill='#10cf81'/><rect x='47' y='67' width='4' height='18' fill='#10cf81'/><rect x='54' y='66' width='4' height='19' fill='#10cf81'/><rect x='61' y='65' width='4' height='20' fill='#10cf81'/><rect x='68' y='67' width='4' height='18' fill='#10cf81'/><rect x='75' y='66' width='4' height='19' fill='#10cf81'/><rect x='82' y='65' width='4' height='20' fill='#10cf81'/><rect x='89' y='67' width='4' height='18' fill='#10cf81'/><rect x='96' y='66' width='4' height='19' fill='#10cf81'/><rect x='103' y='64' width='4' height='21' fill='#10cf81'/><rect x='110' y='66' width='4' height='19' fill='#10cf81'/><rect x='117' y='65' width='4' height='20' fill='#10cf81'/><rect x='124' y='67' width='4' height='18' fill='#10cf81'/><rect x='131' y='66' width='4' height='19' fill='#10cf81'/><rect x='138' y='65' width='4' height='20' fill='#10cf81'/><rect x='145' y='67' width='4' height='18' fill='#10cf81'/><rect x='152' y='66' width='4' height='19' fill='#10cf81'/><rect x='159' y='65' width='4' height='20' fill='#10cf81'/><rect x='166' y='67' width='4' height='18' fill='#10cf81'/><rect x='173' y='66' width='4' height='19' fill='#10cf81'/><rect x='180' y='64' width='4' height='21' fill='#10cf81'/><rect x='187' y='66' width='4' height='19' fill='#10cf81'/><rect x='194' y='65' width='4' height='20' fill='#10cf81'/><rect x='201' y='67' width='4' height='18' fill='#10cf81'/><rect x='208' y='66' width='4' height='19' fill='#10cf81'/><rect x='215' y='65' width='4' height='20' fill='#10cf81'/><rect x='222' y='67' width='4' height='18' fill='#10cf81'/><text x='4' y='95' fill='white'>-57 dBm  Active (-70 dBm)</text>
+<text x='4' y='109' fill='#10cf81'>> Stop</text>
+</g>
+<g transform='translate(4 162)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>RSSI Meter</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>SIMULATED | Measuring</text>
+<text x='4' y='44' fill='white'>433900 kHz   fixed</text>
+<rect x='5' y='65' width='4' height='20' fill='#10cf81'/><rect x='12' y='67' width='4' height='18' fill='#10cf81'/><rect x='19' y='66' width='4' height='19' fill='#10cf81'/><rect x='26' y='64' width='4' height='21' fill='#10cf81'/><rect x='33' y='66' width='4' height='19' fill='#10cf81'/><rect x='40' y='65' width='4' height='20' fill='#10cf81'/><rect x='47' y='67' width='4' height='18' fill='#10cf81'/><rect x='54' y='66' width='4' height='19' fill='#10cf81'/><rect x='61' y='65' width='4' height='20' fill='#10cf81'/><rect x='68' y='67' width='4' height='18' fill='#10cf81'/><rect x='75' y='66' width='4' height='19' fill='#10cf81'/><rect x='82' y='65' width='4' height='20' fill='#10cf81'/><rect x='89' y='67' width='4' height='18' fill='#10cf81'/><rect x='96' y='66' width='4' height='19' fill='#10cf81'/><rect x='103' y='64' width='4' height='21' fill='#10cf81'/><rect x='110' y='66' width='4' height='19' fill='#10cf81'/><rect x='117' y='65' width='4' height='20' fill='#10cf81'/><rect x='124' y='67' width='4' height='18' fill='#10cf81'/><rect x='131' y='66' width='4' height='19' fill='#10cf81'/><rect x='138' y='65' width='4' height='20' fill='#10cf81'/><rect x='145' y='67' width='4' height='18' fill='#10cf81'/><rect x='152' y='66' width='4' height='19' fill='#10cf81'/><rect x='159' y='65' width='4' height='20' fill='#10cf81'/><rect x='166' y='67' width='4' height='18' fill='#10cf81'/><rect x='173' y='66' width='4' height='19' fill='#10cf81'/><rect x='180' y='64' width='4' height='21' fill='#10cf81'/><rect x='187' y='66' width='4' height='19' fill='#10cf81'/><rect x='194' y='65' width='4' height='20' fill='#10cf81'/><rect x='201' y='67' width='4' height='18' fill='#10cf81'/><rect x='208' y='66' width='4' height='19' fill='#10cf81'/><rect x='215' y='65' width='4' height='20' fill='#10cf81'/><rect x='222' y='67' width='4' height='18' fill='#10cf81'/><text x='4' y='56' fill='white'>Latest -57 dBm</text>
+<text x='4' y='95' fill='white'>Min -58  Max -48  Avg -53 dBm</text>
+<text x='4' y='109' fill='#10cf81'>> Stop</text>
+</g>
+<g transform='translate(248 162)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Activity History</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>SIMULATED | Measuring</text>
+<text x='4' y='44' fill='white'>433900 kHz   fixed</text>
+<rect x='5' y='65' width='4' height='20' fill='#10cf81'/><rect x='12' y='67' width='4' height='18' fill='#10cf81'/><rect x='19' y='66' width='4' height='19' fill='#10cf81'/><rect x='26' y='64' width='4' height='21' fill='#10cf81'/><rect x='33' y='66' width='4' height='19' fill='#10cf81'/><rect x='40' y='65' width='4' height='20' fill='#10cf81'/><rect x='47' y='67' width='4' height='18' fill='#10cf81'/><rect x='54' y='66' width='4' height='19' fill='#10cf81'/><rect x='61' y='65' width='4' height='20' fill='#10cf81'/><rect x='68' y='67' width='4' height='18' fill='#10cf81'/><rect x='75' y='66' width='4' height='19' fill='#10cf81'/><rect x='82' y='65' width='4' height='20' fill='#10cf81'/><rect x='89' y='67' width='4' height='18' fill='#10cf81'/><rect x='96' y='66' width='4' height='19' fill='#10cf81'/><rect x='103' y='64' width='4' height='21' fill='#10cf81'/><rect x='110' y='66' width='4' height='19' fill='#10cf81'/><rect x='117' y='65' width='4' height='20' fill='#10cf81'/><rect x='124' y='67' width='4' height='18' fill='#10cf81'/><rect x='131' y='66' width='4' height='19' fill='#10cf81'/><rect x='138' y='65' width='4' height='20' fill='#10cf81'/><rect x='145' y='67' width='4' height='18' fill='#10cf81'/><rect x='152' y='66' width='4' height='19' fill='#10cf81'/><rect x='159' y='65' width='4' height='20' fill='#10cf81'/><rect x='166' y='67' width='4' height='18' fill='#10cf81'/><rect x='173' y='66' width='4' height='19' fill='#10cf81'/><rect x='180' y='64' width='4' height='21' fill='#10cf81'/><rect x='187' y='66' width='4' height='19' fill='#10cf81'/><rect x='194' y='65' width='4' height='20' fill='#10cf81'/><rect x='201' y='67' width='4' height='18' fill='#10cf81'/><rect x='208' y='66' width='4' height='19' fill='#10cf81'/><rect x='215' y='65' width='4' height='20' fill='#10cf81'/><rect x='222' y='67' width='4' height='18' fill='#10cf81'/><text x='4' y='95' fill='white'>t+4000ms   Active ~3900ms</text>
+<text x='4' y='109' fill='#10cf81'>> Stop</text>
+</g>
+<g transform='translate(4 304)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Module Diagnostics</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>SIMULATED | Measuring</text>
+<text x='4' y='47' fill='white'>U219 identity unconfirmed</text>
+<text x='4' y='61' fill='white'>SPI owner: Free</text>
+<text x='4' y='75' fill='white'>Profile awaits bench confirmation</text>
+<text x='4' y='91' fill='white'>Failed 0  SPI timeouts 0</text>
+<text x='4' y='109' fill='#10cf81'>> Stop</text>
+</g>
+<g transform='translate(248 304)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Spectrum Analyzer</text>
+<text x='4' y='127' fill='white'>G0: next   Hold: select   DEL: back</text>
+<text x='4' y='31' fill='#10cf81'>U219 | U219 unavailable</text>
+<text x='4' y='52' fill='white'>U219 awaits physical confirmation</text>
+<text x='4' y='68' fill='white'>Choose Source for simulated readings</text>
+<text x='4' y='109' fill='#10cf81'>> Frequency +100 kHz</text>
+</g>
+</svg>

@@ -12,7 +12,7 @@ const Lifecycle systemApp = {enter, refresh, input, leave};
 const Lifecycle settingsApp = {enter, refresh, input, leave};
 const Lifecycle modulesApp = {enter, refresh, input, leave};
 
-const Lifecycle wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
+const Lifecycle signalApp = systemApp, wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
 int main() {
     assert(appCount() == 12 && !appAt(appCount()));
     unsigned live = 0;
@@ -25,7 +25,7 @@ int main() {
             assert(a.run->enter && a.run->leave && a.run->refresh && a.run->input);
         }
     }
-    assert(live == 6);
+    assert(live == 7);
     Navigation n;
     auto press = [&](Key key) { n.handle(key, Panel); };
     press(Key::Left);
@@ -45,11 +45,11 @@ int main() {
     press(Key::Right);
     press(Key::Right);
     assert(n.selected == 2);
-    n.selected = 4;
+    n.selected = 5;
     press(Key::Open);
     assert(n.page == Navigation::Reserved && enters == 1);
     press(Key::Step);
-    assert(n.page == Navigation::Home && n.selected == 4);
+    assert(n.page == Navigation::Home && n.selected == 5);
     n.selected = 2;
     for (int i = 0; i < 4; ++i) press(Key::Down);
     assert(n.selected == 11);

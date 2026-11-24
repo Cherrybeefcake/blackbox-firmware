@@ -8,7 +8,7 @@ enum class Owner { None, System, Manager, Application };
 struct Profile {
     const char *id, *name;
     Bus bus;
-    uint8_t count, pins[8];
+    uint8_t count, pins[9];
     State (*start)();
     void (*stop)();
 };

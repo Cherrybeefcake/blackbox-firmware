@@ -5,7 +5,7 @@ static const App apps[] = {
     {"Settings",           "Settings",  {8, 126, 8, 0, 32, 126, 32, 0},       Panel,      &settingsApp},
     {"Wi-Fi Explorer",     "Wi-Fi",     {0, 126, 129, 60, 66, 24, 0, 24},     Wifi,       &wifiApp    },
     {"Bluetooth Explorer", "Bluetooth", {16, 24, 84, 56, 56, 84, 24, 16},     Bluetooth,  &bleApp     },
-    {"Sub-GHz analysis",   "Sub-GHz",   {16, 84, 84, 56, 16, 16, 16, 56},     Radio,      nullptr     },
+    {"Sub-GHz analysis",   "Sub-GHz",   {16, 84, 84, 56, 16, 16, 16, 56},     Panel,      &signalApp     },
     {"NFC",                "NFC",       {126, 66, 98, 82, 74, 70, 66, 126},   Nfc,        nullptr     },
     {"Infrared",           "Infrared",  {0, 66, 36, 24, 24, 36, 66, 0},       Ir,         nullptr     },
     {"Module Manager",     "Hardware",  {36, 126, 66, 126, 66, 126, 36, 0},   Panel,      &modulesApp },

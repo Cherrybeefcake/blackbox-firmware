@@ -27,8 +27,8 @@ int Modules::blocker(unsigned i, bool activeOnly) const {
         if (i == j || (activeOnly && slots[j].owner == Owner::None)) continue;
         const auto &q = profiles[j];
         if (p.bus != Bus::GPIO && p.bus == q.bus) return j;
-        for (unsigned a = 0; a < p.count && a < 8; ++a)
-            for (unsigned b = 0; b < q.count && b < 8; ++b)
+        for (unsigned a = 0; a < p.count && a < 9; ++a)
+            for (unsigned b = 0; b < q.count && b < 9; ++b)
                 if (p.pins[a] == q.pins[b]) return j;
     }
     return -1;
@@ -39,12 +39,12 @@ State Modules::acquire(unsigned i, Owner owner) {
     const auto &p = profiles[i];
     if (slot.owner != Owner::None) return State::Conflict;
     if (board != Board::Adv || !p.start || !p.stop) return slot.state = State::Unavailable;
-    if (!p.count || p.count > 8) return slot.state = State::Error;
+    if (!p.count || p.count > 9) return slot.state = State::Error;
     for (unsigned n = 0; n < p.count; ++n) {
         // Only verified ADV expansion signals can be dynamically claimed.
         const unsigned pin = p.pins[n];
         if (!(pin == 1 || pin == 2 || pin == 3 || pin == 4 || pin == 5 || pin == 6 || pin == 8 || pin == 9 ||
-              pin == 13 || pin == 14 || pin == 15 || pin == 39 || pin == 40))
+              pin == 12 || pin == 13 || pin == 14 || pin == 15 || pin == 39 || pin == 40))
             return slot.state = State::Error;
         for (unsigned k = 0; k < n; ++k)
             if (pin == p.pins[k]) return slot.state = State::Error;
