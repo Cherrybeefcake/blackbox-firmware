@@ -1,5 +1,11 @@
 # BLACKBOX firmware architecture
 
+## Release candidate architecture
+
+The independent 0.9.0 RC1 loop owns input sampling, navigation, display updates and delayed preference writes. Navigation retains the lifecycle it actually entered and calls its cleanup on Home, even if selection becomes invalid. Explicit sessions own individual buses or the shared radio. Successful initialization stages determine teardown order. System Info reads cached device state and runtime heap counters; its fourth page runs four checks entirely in RAM. The compile-time profile table controls electrical access independently of saved display and navigation preferences.
+
+Boot hooks embed a source ID, narrow the factory installation to three images and verify the ELF's NVS and crash-data guards. The standard image excludes the confirmed-U219 bench flag. See the [candidate report](RELEASE_CANDIDATE.md) and [release manifest](RELEASE_MANIFEST.md) for the actual linked build.
+
 The independent Cardputer ADV target builds an explicit source allowlist in blackbox/platformio.ini. Startup initializes the display, keyboard and board status. Registry entries define a screen lifecycle and required capabilities. The main loop routes one input event to the active application and refreshes status once per second.
 
 Terminal owns one receive-only session across its monitor, viewers, configuration and statistics pages. Hardware Lab shares the session model for its selectable instruments. Fixed rings retain observations and sampled inputs in RAM. The default simulation runs through the same application lifecycle as the gated hardware adapters. Module Manager arbitrates physical buses and pins. SPI inventory reads the ownership registry and its transaction fixture runs entirely in memory. Terminal and Hardware Lab each release their session on dashboard exit.

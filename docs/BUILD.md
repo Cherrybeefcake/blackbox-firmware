@@ -1,5 +1,7 @@
 # Task 002 build record
 
+For the current independent BLACKBOX target, use the [build and test instructions](../blackbox/README.md) and [RC1 binary manifest](RELEASE_MANIFEST.md). The historical measurements below refer to the upstream Task 002 review.
+
 Verified GitHub commit 2b6ba4d490bfcf94ce2574c6154537dbd5838c3d matches the upstream 1.17 checkout recorded by CI. The review workspace contains documentation only. No local dependency resolution, compiler run or binary generation took place. The unchanged full image includes autonomous wireless attack functionality. Producing that image falls outside this engineering work.
 
 **Upstream release evidence.** The Cardputer job succeeded with warnings on November 12, 2026, in 495.84 seconds. CI set release version metadata and disabled RAM logging. A development configuration uses different flags. [Job and full diagnostics](https://github.com/BruceDevices/firmware/actions/runs/43319892630/job/131537484588)

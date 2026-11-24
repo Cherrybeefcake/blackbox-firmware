@@ -11,10 +11,13 @@ BLACKBOX OS targets the M5Stack Cardputer ADV. Development uses the independent 
 | 0.6 | NFC Center and Infrared Lab with disabled, bench-pending physical profiles |
 | 0.7 | Receive-only Terminal, I²C map, SPI inventory and simulated transactions, sampled GPIO traces, offline calculators and references, and System Profiler |
 | 0.8 | Workspace launcher, quick search, favorites and recent apps, NVS preferences, bounded Files manager, session recording, report preview/export and offline help |
+| 0.9.0 RC1 | Integrated System Health, guarded factory installation, storage and crash privacy fixes, unified sanitizer-tested host suite, offline verification and a manual recovery package |
 
-## Next milestone — ADV bench validation
+## Next milestone — physical qualification of RC1
 
-1. Verify the 0.8.0 dashboard, keyboard text entry and G0 navigation on the ADV. Verify the simulator and offline tools first. Review physical UART RX, Grove I²C and GPIO profiles individually against the bench assembly before any separately enabled hardware test. Record board revision, wiring and instrument readings alongside the firmware hash. [Hardware Lab procedures](HARDWARE_LAB.md)
+Complete the [qualification sheet](HARDWARE_QUALIFICATION.md) against the [packaged build](RELEASE_MANIFEST.md). Attach results to the relevant revision before deciding on a stable release or a separately approved accessory build.
+
+1. Verify the RC1 dashboard, keyboard text entry and G0 navigation on the ADV. Verify the simulator and offline tools first. Review physical UART RX, Grove I²C and GPIO profiles individually against the bench assembly before any separately enabled hardware test. Record board revision, wiring and instrument readings alongside the firmware hash. [Hardware Lab procedures](HARDWARE_LAB.md)
 2. Verify that closing each peripheral restores availability to other applications, including after timeout and bus errors. Measure runtime heap recovery, UART receive throughput and display responsiveness.
 3. Complete the separate accessory checks for the existing gated profiles before enabling any physical profile. [Sub-GHz bench procedures](SUBGHZ.md) · [NFC and infrared bench procedures](NFC_IR.md)
 4. For each implementation change, rebuild the independent target, run its host checks and record image growth, static RAM and test evidence.

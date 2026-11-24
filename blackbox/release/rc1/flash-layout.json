@@ -1,0 +1,49 @@
+{
+  "target": "M5Stack Cardputer ADV",
+  "version": "0.9.0 RC1",
+  "commit": "8332ac614e068fb9dd33f70279ed32a50912a72a",
+  "dirty": false,
+  "qualified": false,
+  "python": "3.9.6",
+  "platformio": "6.2.0",
+  "espressif32": "6.10.0",
+  "packages": {
+    "framework-arduinoespressif32": "3.20017.241212+sha.dcc1105b",
+    "tool-esptoolpy": "1.40501.0",
+    "toolchain-xtensa-esp32s3": "8.4.0+2021r2-patch5",
+    "toolchain-riscv32-esp": "8.4.0+2021r2-patch5"
+  },
+  "libraries": {
+    "Adafruit BusIO": "1.17.2",
+    "Adafruit TCA8418": "1.0.2",
+    "TFT_eSPI": "2.5.43",
+    "FS": "2.0.0",
+    "LittleFS": "2.0.0",
+    "Preferences": "2.0.0",
+    "SD": "2.0.0",
+    "SPI": "2.0.0",
+    "SPIFFS": "2.0.0",
+    "Wire": "2.0.0"
+  },
+  "flash_bytes": 8388608,
+  "images": [
+    {
+      "name": "bootloader.bin",
+      "offset": "0x0",
+      "bytes": 15104,
+      "sha256": "1776e4dd896a69d0a5c2e79957b0e2a88aa4129b1381d6478683515a1f6af343"
+    },
+    {
+      "name": "partitions.bin",
+      "offset": "0x8000",
+      "bytes": 3072,
+      "sha256": "40dc554ae4f93b09fa057db852ff05b3e03d42167fe65a490496def94b3648ec"
+    },
+    {
+      "name": "firmware.bin",
+      "offset": "0x10000",
+      "bytes": 1339584,
+      "sha256": "76f9a0c6201c6b435e603dbc55cd051e65cd6729187bf5ad21303d69010a2a33"
+    }
+  ]
+}

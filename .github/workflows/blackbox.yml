@@ -30,6 +30,9 @@ jobs:
       - run: python -m pip install platformio==6.2.0
       - run: pio run -d blackbox -e blackbox-cardputer-adv
       - run: python blackbox/tools/verify_release.py blackbox/.pio/build/blackbox-cardputer-adv
+      - run: python blackbox/tools/verify_release.py blackbox/release/rc1
+      - run: sha256sum -c SHA256SUMS
+        working-directory: blackbox/release/rc1
       - uses: actions/upload-artifact@v4
         with:
           name: blackbox-cardputer-adv

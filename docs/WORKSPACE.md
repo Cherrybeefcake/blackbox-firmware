@@ -1,5 +1,11 @@
 # BLACKBOX OS 0.8.0 on Cardputer ADV
 
+## RC1 changes
+
+The in-device Help lists the direct Home gesture. Recording has a 24-hour limit. A recorder deliberately stays active between apps until Stop or its deadline. Removed media releases the workspace owner even when the transfer is cancelled before the next service tick. Malformed stored preferences run with defaults and can be replaced through the confirmed Reset command. Files on the RAM volume last until restart. [Current recovery guide](RECOVERY.md) · [Privacy and tests](RELEASE_CANDIDATE.md)
+
+The following measurements belong to the 0.8.0 baseline.
+
 The Files application and Workspace launcher are available on the dashboard. This release was clean-built from the independent target on 24 November 2026. Its parent is the Hardware Lab release at `e77b6c0c35892ddd70b033ac924bdefdff208ace`. Files and report export work with the volatile RAM volume. Internal preferences use ESP32 NVS. The microSD profile requires a separate bench qualification before enabling its physical mount callback.
 
 ## Reviewing the interface

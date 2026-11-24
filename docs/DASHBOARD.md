@@ -1,5 +1,11 @@
 # BLACKBOX OS 0.2.0
 
+## Current RC1 controls
+
+The current dashboard contains 13 apps across three pages. Use the four directions to move and Enter to open. G0 cycles tiles on a tap, selects on a hold, and returns Home after a hold of at least two seconds followed by release. Q opens Search and F opens the configured shortcut. Inside System, Enter advances to Health, Ownership and Self-test. On the Self-test page select once to run the four checks. Delete returns to the overview or exits. Text entry uses the keyboard; G0 can exit editors without entering characters. [RC1 preview](rc-preview.svg) · [Current operator guide](../blackbox/README.md)
+
+The remainder records the original dashboard implementation.
+
 The independent Cardputer ADV project now starts on a two-page, six-tile dashboard. System Info and Settings are available. Gray tiles marked PLANNED open a notice. Their descriptors have no implementation callbacks. No communications or scanning code is included for those entries.
 
 ![Dashboard pages, Settings and reserved application notice](dashboard-preview.svg)

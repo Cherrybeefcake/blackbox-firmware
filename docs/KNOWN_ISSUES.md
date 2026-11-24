@@ -1,5 +1,11 @@
 # Known issues at Bruce 1.17
 
+## Independent BLACKBOX RC1
+
+Physical acceptance remains pending. Device-specific heap fragmentation, real SDK callback and stop timing, LCD presentation, keyboard electrical behavior, battery measurement, SD reliability and accessory handoff require bench evidence. A shutdown failure latches the radio off until reboot. Malformed preferences preserve the existing record until explicit reset; a failed NVS initialization makes new settings volatile. A backing store may hold private data from older firmware. The candidate preserves existing partitions and its disabled crash writer cannot recover or clear older dumps. See [remaining checks](HARDWARE_QUALIFICATION.md), [known limitations and fixes](RELEASE_CANDIDATE.md) and [operator recovery](RECOVERY.md).
+
+### Historical upstream findings
+
 | Finding | Consequence and engineering response |
 |---|---|
 | Pin validators modify structures passed by value | Corrections can be lost before save. Validate the stored assignments, reject reserved pins and test invalid input. [Validators](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/configPins.cpp#L488-L519) |
