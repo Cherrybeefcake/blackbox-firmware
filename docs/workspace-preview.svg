@@ -1,9 +1,9 @@
-<svg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='984' height='1176' viewBox='0 0 492 588' font-family='monospace' font-size='9'><rect width='492' height='588' fill='#212728'/><text x='4' y='13' fill='white'>BLACKBOX 0.8.0 / HOST PREVIEW / SYNTHETIC INPUT</text>
+<svg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='984' height='1176' viewBox='0 0 492 588' font-family='monospace' font-size='9'><rect width='492' height='588' fill='#212728'/><text x='4' y='13' fill='white'>BLACKBOX 0.9.0 RC1 / HOST PREVIEW / SYNTHETIC INPUT</text>
 <g transform='translate(4 20)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
 <text x='80' y='12' fill='white'>Workspace</text>
 <text x='4' y='127' fill='white'>G0 next / hold select    DEL back</text>
-<text x='4' y='30' fill='#10cf81'>BLACKBOX OS 0.8.0</text>
+<text x='4' y='30' fill='#10cf81'>0.9.0 RC1</text>
 <text x='4' y='45' fill='#10cf81'>> Quick Search</text>
 <text x='4' y='60' fill='white'>  Favorites</text>
 <text x='4' y='75' fill='white'>  Recent apps</text>
@@ -59,11 +59,11 @@
 <text x='80' y='12' fill='white'>TXT preview</text>
 <text x='4' y='127' fill='white'>G0 next page / hold export   DEL back</text>
 <text x='4' y='30' fill='#10cf81'>Session summary</text>
-<text x='4' y='45' fill='white'>BLACKBOX OS 0.8.0 | Session summary</text>
-<text x='4' y='60' fill='white'>Uptime start 0 ms | duration 3000 ms</text>
-<text x='4' y='75' fill='white'>Selected summaries:</text>
-<text x='4' y='90' fill='white'>  Battery voltage</text>
-<text x='4' y='105' fill='white'>Battery [mV] DEVICE</text>
+<text x='4' y='45' fill='white'>BLACKBOX OS 0.9.0 RC1 | Session summar</text>
+<text x='4' y='60' fill='white'>y</text>
+<text x='4' y='75' fill='white'>Uptime start 0 ms | duration 3000 ms</text>
+<text x='4' y='90' fill='white'>Selected summaries:</text>
+<text x='4' y='105' fill='white'>  Battery voltage</text>
 </g>
 <g transform='translate(4 443)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
 <text x='4' y='10' fill='#10cf81'>BLACKBOX</text>

@@ -35,6 +35,10 @@ bool Session::start(uint16_t selected, uint32_t now) {
     exists = running = true;
     return true;
 }
+void Session::tick(uint32_t now) {
+    constexpr uint32_t day = 86400000;
+    if (running && now - started >= day) stop(started + day);
+}
 void Session::stop(uint32_t now) {
     if (running) {
         elapsed = now - started;

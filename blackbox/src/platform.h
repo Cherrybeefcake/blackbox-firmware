@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #pragma once
 #include <stdint.h>
-enum class Key { None, Left, Right, Up, Down, Open, Back, Step, Hold, Character, Search, Shortcut };
+enum class Key { None, Left, Right, Up, Down, Open, Back, Step, Hold, Character, Search, Shortcut, Home };
 enum Hardware : uint16_t {
     Panel = 1,
     ADC = 2,
@@ -40,5 +40,9 @@ struct Navigation {
     unsigned selected = 0;
     enum Page { Home, Running, Reserved, Missing } page = Home;
     void handle(Key key, uint16_t hardware);
+    void home();
+
+private:
+    const Lifecycle *active = nullptr;
 };
 constexpr unsigned columns = 3, pageSize = 6;

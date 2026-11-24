@@ -1,0 +1,39 @@
+name: BLACKBOX independent firmware
+
+on:
+  push:
+    branches: ['feature/blackbox-*']
+    paths: ['blackbox/**', 'custom_8Mb.csv', 'docs/*preview.svg', '.github/workflows/blackbox.yml']
+  pull_request:
+    paths: ['blackbox/**', 'custom_8Mb.csv', 'docs/*preview.svg', '.github/workflows/blackbox.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify-software:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: sh blackbox/tests/run.sh
+      - run: sh blackbox/tests/run.sh --sanitize
+      - run: python -m pip install platformio==6.2.0
+      - run: pio run -d blackbox -e blackbox-cardputer-adv
+      - run: python blackbox/tools/verify_release.py blackbox/.pio/build/blackbox-cardputer-adv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blackbox-cardputer-adv
+          if-no-files-found: error
+          path: |
+            blackbox/.pio/build/blackbox-cardputer-adv/*.bin
+            blackbox/.pio/build/blackbox-cardputer-adv/flash-layout.json

@@ -9,7 +9,7 @@ const char *settingsState = "Defaults";
 namespace {
 uint8_t saved[packetSize], pending[packetSize];
 uint32_t changed, lastAttempt;
-bool attempted;
+bool attempted, invalidRecord;
 void applyToolSettings() {
     bench::baudIndex = prefs.baud;
     bench::i2cHz = prefs.fastBus ? 400000 : 100000;
@@ -17,12 +17,15 @@ void applyToolSettings() {
 } // namespace
 void loadSettings() {
     prefs = Prefs{};
+    invalidRecord = false;
+    settingsState = preferencesAvailable() ? "Defaults" : "NVS unavailable";
     Preferences nvs;
     uint8_t buf[packetSize]{};
-    if (nvs.begin("blackbox", true)) {
+    if (preferencesAvailable() && nvs.begin("blackbox", true)) {
         if (nvs.isKey("prefs")) {
             bool ok = nvs.getBytesLength("prefs") == sizeof buf &&
                       nvs.getBytes("prefs", buf, sizeof buf) == sizeof buf && decode(prefs, buf, sizeof buf);
+            invalidRecord = !ok;
             settingsState = ok ? "Loaded" : "Invalid | defaults";
         }
         nvs.end();
@@ -32,11 +35,13 @@ void loadSettings() {
     memcpy(pending, saved, sizeof saved);
 }
 void applySettings() {
+    invalidRecord = false;
     saved[0] = 0; // Also replaces a previously malformed record after an explicit reset.
     applyBrightness();
     applyToolSettings();
 }
 void serviceSettings(uint32_t now) {
+    if (invalidRecord || !preferencesAvailable()) return;
     prefs.baud = bench::baudIndex;
     prefs.fastBus = bench::i2cHz == 400000;
     uint8_t buf[packetSize];

@@ -133,6 +133,11 @@ void draw() {
         s.row(1, line);
         snprintf(line, sizeof line, "Free %llu B", (unsigned long long)store.freeSpace());
         s.row(2, line);
+        if (store.owner != Client::Files) {
+            notice(describe(store.last));
+            draw();
+            return;
+        }
         s.row(3, demo ? "Volatile data | no SPI lease" : "Module Manager | SPI lease");
         s.row(4, "Owner: Files   /BLACKBOX");
         s.row(5, "Select to return");

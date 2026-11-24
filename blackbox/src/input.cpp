@@ -17,10 +17,14 @@ static Adafruit_TCA8418 keys;
 static bool ready;
 bool initInput() {
     pinMode(0, INPUT_PULLUP);
-    ready = Wire1.begin(8, 9) && keys.begin(0x34, &Wire1);
+    bool bus = Wire1.begin(8, 9);
+    ready = bus && keys.begin(0x34, &Wire1);
+    if (bus && !ready) Wire1.end();
     if (ready) {
         keys.matrix(7, 8);
-        keys.flush();
+        Wire1.setTimeOut(10);
+        // TCA8418 has a ten-event FIFO. Polling input does not need its IRQ latch.
+        for (unsigned i = 0; i < 10 && keys.available(); ++i) keys.getEvent();
     }
     return ready;
 }
@@ -35,7 +39,10 @@ Key readInput() {
     if (stable != sampled && millis() - edge >= 30) {
         stable = sampled;
         if (stable) start = millis();
-        else return millis() - start >= 600 ? Key::Hold : Key::Step;
+        else {
+            uint32_t held = millis() - start;
+            return held >= 2000 ? Key::Home : held >= 600 ? Key::Hold : Key::Step;
+        }
     }
     if (!ready || !keys.available()) return Key::None;
     // Physical row/column mapping from Bruce's Cardputer ADV matrix.

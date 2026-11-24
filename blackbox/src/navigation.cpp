@@ -1,23 +1,30 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "platform.h"
+void Navigation::home() {
+    if (active) active->leave();
+    active = nullptr;
+    page = Home;
+}
 void Navigation::handle(Key key, uint16_t hardware) {
     const App *app = appAt(selected);
-    if (!app) {
-        page = Home;
+    if (!app || (active && (page != Running || active != app->run)) || (page == Running && !active)) {
+        home();
         selected = 0;
+        return;
+    }
+    if (key == Key::Home) {
+        home();
         return;
     }
     if (page != Home) {
         if (page == Running && app->run->special &&
             (key == Key::Back || key == Key::Hold || key == Key::Open)) {
             if (app->run->special(key)) return;
-            app->run->leave();
-            page = Home;
+            home();
             return;
         }
         if (key == Key::Back || key == Key::Hold || (page != Running && key == Key::Step)) {
-            if (page == Running) app->run->leave();
-            page = Home;
+            home();
         } else if (page == Running) app->run->input(key);
         return;
     }
@@ -41,7 +48,8 @@ void Navigation::handle(Key key, uint16_t hardware) {
             else if ((hardware & app->needs) != app->needs) page = Missing;
             else {
                 page = Running;
-                app->run->enter();
+                active = app->run;
+                active->enter();
             }
             break;
         default: break;

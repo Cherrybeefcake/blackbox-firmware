@@ -10,6 +10,9 @@ unsigned char bytes[100];
 namespace bench {
 unsigned baudIndex, i2cHz;
 }
+namespace ws {
+bool preferencesAvailable() { return true; }
+} // namespace ws
 void applyBrightness() {}
 int main() {
     using namespace ws;
@@ -45,6 +48,10 @@ int main() {
     fakeNvs::bytes[0] = 0;
     loadSettings();
     assert(prefs.theme == 0 && prefs.favorites[0] == noId && strstr(settingsState, "Invalid"));
+    recent(10);
+    serviceSettings(100000);
+    serviceSettings(115000);
+    assert(fakeNvs::writes == 3);
     prefs = Prefs{};
     applySettings();
     serviceSettings(120000);

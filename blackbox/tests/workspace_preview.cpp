@@ -62,9 +62,10 @@ const Lifecycle systemApp = stub, settingsApp = stub, hardwareLabApp = stub, ter
                 bleApp = stub, channelApp = stub;
 int main() {
     puts(
-        "<svg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='984' height='1176' viewBox='0 0 492 588' "
+        "<svg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' width='984' height='1176' viewBox='0 0 "
+        "492 588' "
         "font-family='monospace' font-size='9'><rect width='492' height='588' fill='#212728'/>"
-        "<text x='4' y='13' fill='white'>BLACKBOX 0.8.0 / HOST PREVIEW / SYNTHETIC INPUT</text>"
+        "<text x='4' y='13' fill='white'>BLACKBOX 0.9.0 RC1 / HOST PREVIEW / SYNTHETIC INPUT</text>"
     );
     auto &w = workspaceApp;
     shot([&] { w.enter(); });

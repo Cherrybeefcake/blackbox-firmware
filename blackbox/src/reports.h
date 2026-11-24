@@ -31,6 +31,7 @@ struct Session {
     Stat stats[MetricCount + 2]{};
     bool start(uint16_t selected, uint32_t now);
     void stop(uint32_t now);
+    void tick(uint32_t now);
     bool wants(Group g) const { return running && (mask & (1u << g)); }
     void observe(Metric, Origin, double, bool error = false);
 };

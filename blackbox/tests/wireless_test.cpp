@@ -13,6 +13,7 @@ static bool stop(Owner) {
     return stopOK;
 }
 int main() {
+    assert(!hasScanHeadroom(16383, 8192) && !hasScanHeadroom(16384, 8191) && hasScanHeadroom(16384, 8192));
     Results r;
     Record a{};
     a.id[0] = 1;

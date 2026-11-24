@@ -11,6 +11,8 @@ View view;
 Owner app;
 unsigned cursor, selected, channel;
 bool byChannel;
+unsigned drawnHeap, drawnSamples;
+Phase drawnPhase;
 const char *message;
 const char *title() {
     return app == Owner::Bluetooth ? "BLUETOOTH" : app == Owner::Channels ? "CHANNELS" : "WI-FI";
@@ -20,6 +22,9 @@ const char *name(const Record &r) {
 }
 void line(unsigned i, const char *s) { airText(4, 25 + 16 * i, s); }
 void draw() {
+    drawnHeap = minimumHeap / 1024;
+    drawnSamples = samples.next;
+    drawnPhase = session.phase;
     airFrame(title(), "Tap G0: next  Hold: select  DEL: back");
     char buf[40];
     switch (view) {
@@ -244,7 +249,7 @@ bool special(Key k) {
     return true;
 }
 void input(Key k) {
-    if (k == Key::None) return;
+    if (k != Key::Left && k != Key::Right && k != Key::Up && k != Key::Down && k != Key::Step) return;
     if (view == Busy) {
         if (k == Key::Step) back();
         return;
@@ -263,13 +268,16 @@ void input(Key k) {
     draw();
 }
 void refresh() {
-    if (view == Meter && session.owner == Owner::None && session.phase == Phase::Done) {
-        draw();
+    if (view == Meter && session.owner == Owner::None &&
+        (session.phase == Phase::Done || session.phase == Phase::Cancelled)) {
+        if (drawnPhase != session.phase || drawnSamples != samples.next) draw();
         return;
     }
     if (view != Busy && view != Meter) return;
     if (session.owner != Owner::None) {
-        draw();
+        if ((view == Busy && drawnHeap != minimumHeap / 1024) ||
+            (view == Meter && drawnSamples != samples.next))
+            draw();
         return;
     }
     if (session.phase == Phase::Error || session.phase == Phase::Timeout) {

@@ -8,6 +8,7 @@
 #include <esp_bt_main.h>
 #include <esp_event.h>
 #include <esp_gap_ble_api.h>
+#include <esp_heap_caps.h>
 #include <esp_netif.h>
 #include <esp_wifi.h>
 extern "C" bool btInUse() { return true; } // Keep controller RAM available; initialization remains explicit.
@@ -19,7 +20,7 @@ const char *error = "";
 unsigned minimumHeap;
 namespace {
 Record target;
-Results advertisements;
+// A BLE producer owns the result table only while scans are active. The UI reads it after stop().
 portMUX_TYPE lock = portMUX_INITIALIZER_UNLOCKED;
 std::atomic<bool> accepting{false}, ready{false}, complete{false}, failed{false};
 bool wifiInit, wifiStarted, registered, btInit, btEnabled, hostInit, hostEnabled, scanPending;
@@ -70,7 +71,7 @@ void gap(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *p) {
             i += len;
         }
         portENTER_CRITICAL(&lock);
-        if (accepting.load()) advertisements.add(r);
+        if (accepting.load()) results.add(r);
         portEXIT_CRITICAL(&lock);
     }
 }
@@ -104,8 +105,6 @@ bool start(Owner who) {
     failed = false;
     attempts = 0;
     if (who == Owner::Bluetooth) {
-        advertisements.count = 0;
-        advertisements.limited = false;
         esp_bt_controller_config_t cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
         if (!(btInit = esp_bt_controller_init(&cfg) == ESP_OK)) return false;
         if (!(btEnabled = esp_bt_controller_enable(ESP_BT_MODE_BLE) == ESP_OK)) return false;
@@ -145,39 +144,40 @@ bool stop(Owner who) {
     if (who == Owner::Bluetooth) {
         if (hostEnabled) {
             esp_ble_gap_stop_scanning();
-            ok &= esp_bluedroid_disable() == ESP_OK;
-            hostEnabled = false;
+            hostEnabled = esp_bluedroid_disable() != ESP_OK;
+            ok &= !hostEnabled;
         }
-        if (hostInit) {
-            ok &= esp_bluedroid_deinit() == ESP_OK;
-            hostInit = false;
+        if (hostInit && !hostEnabled) {
+            hostInit = esp_bluedroid_deinit() != ESP_OK;
+            ok &= !hostInit;
         }
-        if (btEnabled) {
-            ok &= esp_bt_controller_disable() == ESP_OK;
-            btEnabled = false;
+        if (btEnabled && !hostInit) {
+            btEnabled = esp_bt_controller_disable() != ESP_OK;
+            ok &= !btEnabled;
         }
-        if (btInit) {
-            ok &= esp_bt_controller_deinit() == ESP_OK;
-            btInit = false;
+        if (btInit && !btEnabled) {
+            btInit = esp_bt_controller_deinit() != ESP_OK;
+            ok &= !btInit;
         }
         portENTER_CRITICAL(&lock);
-        results = advertisements;
+        // Drain any callback already inside the result-table critical section.
         portEXIT_CRITICAL(&lock);
     } else {
         if (scanPending) esp_wifi_scan_stop();
         scanPending = false;
         if (registered) {
-            ok &= esp_event_handler_instance_unregister(WIFI_EVENT, WIFI_EVENT_SCAN_DONE, handler) == ESP_OK;
-            registered = false;
+            registered =
+                esp_event_handler_instance_unregister(WIFI_EVENT, WIFI_EVENT_SCAN_DONE, handler) != ESP_OK;
+            ok &= !registered;
         }
         if (wifiStarted) {
             esp_wifi_clear_ap_list();
-            ok &= esp_wifi_stop() == ESP_OK;
-            wifiStarted = false;
+            wifiStarted = esp_wifi_stop() != ESP_OK;
+            ok &= !wifiStarted;
         }
-        if (wifiInit) {
-            ok &= esp_wifi_deinit() == ESP_OK;
-            wifiInit = false;
+        if (wifiInit && !wifiStarted) {
+            wifiInit = esp_wifi_deinit() != ESP_OK;
+            ok &= !wifiInit;
         }
     }
     if (!ok) error = "Shutdown failed: reboot";
@@ -191,7 +191,19 @@ void recordScanError(Owner who) {
 const Driver driver = {start, stop};
 } // namespace
 bool begin(Owner who, const Record *ap) {
-    if (session.owner != Owner::None || session.fault) return false;
+    if (session.fault) {
+        error = "Shutdown failed: reboot";
+        return false;
+    }
+    if (session.owner != Owner::None) {
+        error = "Radio already in use";
+        return false;
+    }
+    constexpr unsigned caps = MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT;
+    if (!hasScanHeadroom(heap_caps_get_free_size(caps), heap_caps_get_largest_free_block(caps))) {
+        error = "Low internal heap: scan deferred";
+        return false;
+    }
     if (who == Owner::Meter) {
         if (!ap) return false;
         target = *ap;
@@ -274,8 +286,9 @@ void poll() {
 void cancel() { session.end(session.owner, Phase::Cancelled, driver); }
 void forget() {
     cancel();
-    results = Results{};
-    advertisements = Results{};
+    memset(results.rows, 0, sizeof results.rows);
+    results.count = 0;
+    results.limited = false;
     samples = Samples{};
     target = Record{};
     if (!session.fault) session.phase = Phase::Idle;

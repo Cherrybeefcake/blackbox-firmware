@@ -36,7 +36,7 @@ const Destination tools[] = {
     {12, Kind::Workspace, 4, "Offline Help",          "manual recovery troubleshooting"},
 };
 const char *const keys[] = {
-    "battery voltage firmware",
+    "battery voltage firmware system health self-test memory recovery",
     "display brightness contrast",
     "wifi signal meter access points",
     "ble advertisements",

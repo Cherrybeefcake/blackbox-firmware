@@ -24,7 +24,9 @@ char oldBar[16];
 void frame(const char *title, const char *hint) {
     lcd.fillScreen(TFT_BLACK);
     text(4, 1, "BLACKBOX", themeColor(), 2);
-    text(80, 5, title, TFT_WHITE);
+    char heading[18];
+    snprintf(heading, sizeof heading, "%.17s", title);
+    text(87, 5, heading, TFT_WHITE);
     lcd.drawFastHLine(4, 19, 232, themeColor());
     lcd.drawFastHLine(4, 113, 232, themeColor());
     text(4, 120, hint, detail());
@@ -37,36 +39,13 @@ void tile(unsigned index, bool selected) {
     unsigned slot = index % pageSize;
     int x = 3 + 79 * (slot % columns), y = 22 + 45 * (slot / columns);
     lcd.drawRect(x, y, 76, 42, selected ? themeColor() : detail());
+    lcd.fillRect(x + 2, y + 3, 2, 35, selected ? themeColor() : TFT_BLACK);
     for (int r = 0; r < 8; ++r)
         for (int c = 0; c < 8; ++c)
             if (app->icon[r] & (128 >> c))
                 lcd.fillRect(x + 5 + c * 2, y + 4 + r * 2, 2, 2, app->run ? themeColor() : detail());
     if (!app->run) text(x + 26, y + 8, "PLANNED", detail());
     text(x + 5, y + 26, app->tile, selected ? themeColor() : TFT_WHITE);
-}
-char previous[5][32];
-void field(unsigned i, const char *value) {
-    if (strcmp(previous[i], value) == 0) return;
-    snprintf(previous[i], sizeof(previous[i]), "%s", value);
-    text(92, 26 + i * 17, value, TFT_WHITE, 1, 144);
-}
-void systemRefresh() {
-    char buf[32];
-    field(0, status.adv ? "Cardputer ADV" : "ADV unconfirmed");
-    if (status.mv) snprintf(buf, sizeof(buf), "%u.%03u V", status.mv / 1000, status.mv % 1000);
-    field(1, status.mv ? buf : "Unavailable");
-    snprintf(buf, sizeof(buf), "%u KiB free", status.heap / 1024);
-    field(2, buf);
-    snprintf(buf, sizeof(buf), "%u KiB reserved", status.partition / 1024);
-    field(3, status.partition ? buf : "Partition missing");
-    field(4, version);
-}
-void systemEnter() {
-    frame("SYSTEM INFO", "DEL or hold G0: Home");
-    const char *names[] = {"DEVICE", "BATTERY", "HEAP", "FLASH DATA", "FIRMWARE"};
-    for (unsigned i = 0; i < 5; ++i) text(5, 26 + i * 17, names[i], detail());
-    memset(previous, 0, sizeof(previous));
-    systemRefresh();
 }
 void settingsRows() {
     const char *levels[] = {"Low", "Medium", "High"};
@@ -107,7 +86,7 @@ const char *availability(unsigned index) {
 void moduleView() {
     const Profile &p = *modules.profile(selectedModule);
     if (!moduleDetails) {
-        frame("MODULES", "Up/down: select   Enter: details");
+        frame("MODULES", "G0 tap next / hold details   DEL back");
         unsigned first = selectedModule / 5 * 5;
         for (unsigned i = first; i < moduleCount() && i < first + 5; ++i) {
             int y = 25 + 17 * (i - first);
@@ -117,13 +96,14 @@ void moduleView() {
         }
         return;
     }
-    frame("DETAILS", "Left: list   DEL / hold G0: Home");
+    frame("DETAILS", "DEL list   Hold G0 2s: Home");
     text(5, 23, p.name, themeColor(), 2);
     char line[40];
     snprintf(line, sizeof(line), "%s | %s", busName(p.bus), availability(selectedModule));
     text(5, 43, line, TFT_WHITE);
     int len = snprintf(line, sizeof(line), "GPIO");
-    for (unsigned i = 0; i < p.count; ++i) len += snprintf(line + len, sizeof(line) - len, " %u", p.pins[i]);
+    for (unsigned i = 0; i < p.count && i < sizeof p.pins && len + 4 < int(sizeof line); ++i)
+        len += snprintf(line + len, sizeof(line) - len, " %u", p.pins[i]);
     text(5, 57, line, detail());
     int block = modules.blocker(selectedModule);
     if (block >= 0) snprintf(line, sizeof(line), "Blocked by %s", modules.profile(block)->name);
@@ -152,7 +132,7 @@ void modulesEnter() {
 void modulesInput(Key k) {
     if (k == Key::None) return;
     if (!moduleDetails) {
-        if (k == Key::Down) selectedModule = (selectedModule + 1) % moduleCount();
+        if (k == Key::Down || k == Key::Step) selectedModule = (selectedModule + 1) % moduleCount();
         else if (k == Key::Up) selectedModule = (selectedModule + moduleCount() - 1) % moduleCount();
         else if (k == Key::Right || k == Key::Open || k == Key::Step) moduleDetails = true;
         else return;
@@ -165,12 +145,24 @@ void modulesInput(Key k) {
     } else return;
     moduleView();
 }
+bool modulesSelect(Key k) {
+    if (k == Key::Back) {
+        if (!moduleDetails) return false;
+        moduleDetails = false;
+        moduleView();
+        return true;
+    }
+    if (!moduleDetails || selectedModule == 4) modulesInput(Key::Open);
+    else {
+        moduleDetails = false;
+        moduleView();
+    }
+    return true;
+}
 void modulesLeave() { modules.releaseAll(Owner::Manager); }
 void idle() {}
-void ignore(Key) {}
 } // namespace
-const Lifecycle modulesApp = {modulesEnter, idle, modulesInput, modulesLeave};
-const Lifecycle systemApp = {systemEnter, systemRefresh, ignore, idle};
+const Lifecycle modulesApp = {modulesEnter, idle, modulesInput, modulesLeave, modulesSelect};
 const Lifecycle settingsApp = {settingsEnter, idle, settingsInput, idle};
 void refreshBar() {
     char buf[16];
@@ -193,8 +185,10 @@ void initDisplay() {
     ledcAttachPin(38, 0);
     const int duty[] = {65, 150, 255};
     ledcWrite(0, duty[brightness]);
-    frame("STARTUP", version);
-    text(8, 45, "Device diagnostics", TFT_WHITE, 2);
+    frame("STARTUP", "G0: tap next / hold select / 2s Home");
+    text(6, 29, "Cardputer ADV", TFT_WHITE, 2);
+    text(6, 58, "Diagnostics workstation", detail());
+    text(6, 82, version, themeColor());
 }
 void renderHome(unsigned selected, int previousIndex) {
     if (previousIndex < 0 || selected / pageSize != unsigned(previousIndex) / pageSize) {
@@ -202,7 +196,7 @@ void renderHome(unsigned selected, int previousIndex) {
         snprintf(
             title,
             sizeof(title),
-            "APPS %u/%u",
+            "DASHBOARD %u/%u",
             selected / pageSize + 1,
             (appCount() + pageSize - 1) / pageSize
         );

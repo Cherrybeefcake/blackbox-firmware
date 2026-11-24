@@ -14,8 +14,7 @@ void openPending(uint16_t capabilities) {
     auto dest = pending;
     pending.app = ws::noId;
     if (!appAt(dest.app)) return;
-    if (nav.page == Navigation::Running) appAt(nav.selected)->run->leave();
-    nav.page = Navigation::Home;
+    nav.home();
     nav.selected = dest.app;
     nav.handle(Key::Open, capabilities);
     if (nav.page != Navigation::Running || dest.kind == ws::Kind::App) return;
@@ -31,11 +30,8 @@ void openPending(uint16_t capabilities) {
 }
 void recordDevice() {
     using namespace ws;
+    recorder.tick(millis());
     if (!recorder.running) return;
-    if (millis() - recorder.started >= 86400000U) {
-        recorder.stop(millis());
-        return;
-    }
     recorder.observe(Millivolts, Origin::Device, status.mv, !status.mv);
     recorder.observe(FreeHeap, Origin::Device, status.heap);
     if (recorder.wants(Profiler)) recorder.observe(LargestHeapBlock, Origin::Device, ESP.getMaxAllocHeap());

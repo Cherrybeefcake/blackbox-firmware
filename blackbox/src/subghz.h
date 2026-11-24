@@ -3,6 +3,9 @@
 #include "modules.h"
 namespace rf {
 constexpr unsigned moduleIndex = 5, bins = 17, capacity = 32;
+#if defined(BLACKBOX_STANDARD_RELEASE) && defined(BLACKBOX_BENCH_CONFIRMED_U219) && BLACKBOX_BENCH_CONFIRMED_U219
+#error "Standard BLACKBOX firmware requires the U219 physical lock"
+#endif
 #ifdef BLACKBOX_BENCH_CONFIRMED_U219
 constexpr bool confirmed = BLACKBOX_BENCH_CONFIRMED_U219 == 1;
 #else

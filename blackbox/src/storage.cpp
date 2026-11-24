@@ -193,7 +193,11 @@ void Store::cancel() {
     if (!busy) return;
     busy = false;
     payload = nullptr;
-    if (volume && volume->online() && !volume->erase(stage, false)) {
+    if (volume && !volume->online()) {
+        fail(Err::Missing);
+        return;
+    }
+    if (volume && !volume->erase(stage, false)) {
         fail(Err::Io);
         return;
     }

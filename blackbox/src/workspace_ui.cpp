@@ -43,47 +43,47 @@ const char *const options[] = {
 };
 const char *const help[][5] = {
     {"Controls and dashboard",
-     "Use ; , . / to move. Enter opens.",         "DEL goes back. Tap G0 to advance;",
-     "hold to select in workspace menus.",     "Q searches. F opens your shortcut."        },
+     "Use ; , . / to move. Enter opens.",      "DEL goes back. Tap G0 to advance;",
+     "Hold to select. Hold 2s for Home.",      "Q searches. F opens your shortcut."    },
     {"System Info and Settings",
-     "System shows firmware, battery, heap.",     "Settings adjusts light and contrast.",
-     "Workspace preferences set the theme",    "and shortcut. Changes save after idle."    },
+     "System has Health and a self-test.",     "Settings adjusts light and contrast.",
+     "Workspace preferences set the theme",    "and shortcut. Changes save after idle."},
     {"Wi-Fi and Channel Analyzer",
      "Start a passive scan for nearby APs.",   "Choose an authorized AP for the meter.",
-     "Channels show up to 32 observed APs.",   "AP counts do not measure airtime."         },
+     "Channels show up to 32 observed APs.",   "AP counts do not measure airtime."     },
     {"Bluetooth Explorer",
-     "Start a bounded passive BLE scan.",         "Select an advertisement for details.",
-     "Exit releases radio ownership.",         "Discovery does not establish identity."    },
+     "Start a bounded passive BLE scan.",      "Select an advertisement for details.",
+     "Exit releases radio ownership.",         "Discovery does not establish identity."},
     {"Sub-GHz analysis",
-     "Choose the fixture to test RSSI views.",    "Step size sets the sweep resolution.",
-     "U219 RX needs confirmed ADV wiring.",    "Stop sessions before changing tools."      },
+     "Choose the fixture to test RSSI views.", "Step size sets the sweep resolution.",
+     "U219 RX needs confirmed ADV wiring.",    "Stop sessions before changing tools."  },
     {"NFC and Infrared",
-     "Select a source and start explicitly.",     "NDEF and IR RX fixtures are simulated.",
-     "Onboard IR is emitter only.",            "Check accessory revision and voltage."     },
+     "Select a source and start explicitly.",  "NDEF and IR RX fixtures are simulated.",
+     "Onboard IR is emitter only.",            "Check accessory revision and voltage." },
     {"Module Manager",
-     "Select a module to inspect its pins.",      "Not checked means no presence test.",
-     "Active shows an owner. Conflict means",  "another owner holds a shared resource."  },
+     "Select a module to inspect its pins.",   "Not checked means no presence test.",
+     "Active shows an owner. Conflict means",  "another owner holds a shared resource."},
     {"Terminal and Hardware Lab",
-     "UART is RX only. Set baud first.",          "Check ground and 3.3 V logic levels.",
-     "Lab includes I2C, SPI, GPIO and math.",  "Pinout and references work offline."  },
+     "UART is RX only. Set baud first.",       "Check ground and 3.3 V logic levels.",
+     "Lab includes I2C, SPI, GPIO and math.",  "Pinout and references work offline."   },
     {"Simulation and availability",
-     "SIM is generated data or RAM storage.",     "Unavailable may mean absent or locked.",
-     "Error means a failed check or I/O.",     "Stop the active owner before retrying."    },
+     "SIM is generated data or RAM storage.",  "Unavailable may mean absent or locked.",
+     "Error means a failed check or I/O.",     "Stop the active owner before retrying."},
     {"Files and storage",
-     "RAM files last until reboot.", "Manage short names under /BLACKBOX.",
-     "Copy and export publish after writing.", "Confirm deletion. Unmount to remove."},
+     "RAM files last until reboot.",           "Manage short names under /BLACKBOX.",
+     "Copy and export publish after writing.", "Confirm deletion. Unmount to remove."  },
     {"Recording and reports",
-     "Select sources and Start in Recorder.",     "Run tools, then return and Stop.",
-     "Preview TXT or CSV, choose storage,",    "then confirm export. Times use uptime."    },
+     "Select sources and Start in Recorder.",  "Run tools, then return and Stop.",
+     "Preview TXT or CSV, choose storage,",    "then confirm export. Times use uptime."},
     {"Search and favorites",
-     "Find apps, tools, formulas or topics.",   "Type, Enter, scroll, then select.",
-     "Manage favorites in Preferences.",       "History saves only application IDs."       },
+     "Find apps, tools, formulas or topics.",  "Type, Enter, scroll, then select.",
+     "Manage favorites in Preferences.",       "History saves only application IDs."   },
     {"Troubleshooting and recovery",
-     "Back out of busy tools to free leases.",    "Check source, power and card format.",
-     "Reset preferences for display issues.",  "Recover with a trusted ADV image."  },
+     "Back out of busy tools to free leases.", "Check source, power and card format.",
+     "Reset preferences for display issues.",  "Recover with a trusted ADV image."     },
     {"Firmware recovery",
-     "Back up files. Switch ADV power OFF.",      "Hold G0 while connecting USB-C data.",
-     "Release G0 after power-up. Select a",    "trusted ADV image for manual recovery."    }
+     "Back up files. Switch ADV power OFF.",   "Hold G0 while connecting USB-C data.",
+     "Release G0 after power-up. Select a",    "trusted ADV image for manual recovery."}
 };
 void go(View v, unsigned i = 0) {
     bench::textMode(v == Search);
@@ -168,7 +168,7 @@ unsigned count() {
 }
 void draw() {
     char line[60];
-    const char *title = "Workspace", *state = "BLACKBOX OS 0.8.0";
+    const char *title = "Workspace", *state = version;
     const char *hint = "G0 next / hold select    DEL back";
     switch (view) {
         case Search:

@@ -37,6 +37,9 @@ struct Session {
     void end(Owner who, Phase why, const Driver &driver);
     void tick(uint32_t now, const Driver &driver);
 };
+inline bool hasScanHeadroom(unsigned internalFree, unsigned largestBlock) {
+    return internalFree >= 16 * 1024 && largestBlock >= 8 * 1024;
+}
 extern Results results;
 extern Samples samples;
 extern Session session;

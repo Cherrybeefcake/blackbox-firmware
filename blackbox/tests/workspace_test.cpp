@@ -104,6 +104,10 @@ void storage() {
         s.unique(root, 42, true, path) == Err::Ok
     );
     assert(first != path && v.stat(first.c_str(), stat) && stat.size == 0);
+    assert(s.write(path, payload, sizeof payload) == Err::Ok && s.tick() == Err::Ok);
+    v.present = false;
+    s.cancel();
+    assert(s.owner == Client::None && !s.busy && s.last == Err::Missing && !v.stat(path, stat));
 }
 void preferences() {
     prefs = Prefs{};
@@ -170,7 +174,7 @@ void reports() {
     s.observe(Millivolts, device, 1);
     assert(s.elapsed == 200);
     assert(makeReport(Report::Session, true, snap, s, out, sizeof out));
-    assert(strstr(out, "0.8.0,uptime,100,200,") && strstr(out, "mV,DEVICE,2,3800,3900,3850,1"));
+    assert(strstr(out, "0.9.0 RC1,uptime,100,200,") && strstr(out, "mV,DEVICE,2,3800,3900,3850,1"));
     assert(strstr(out, "dBm,SIM,1,-70,-70,-70,0") && !strstr(out, "77777") && !strstr(out, "12345"));
     assert(!strstr(out, "SSID") && !strstr(out, "BSSID") && !strstr(out, "UID") && !strstr(out, "UART"));
     assert(!makeReport(Report::Session, false, snap, s, out, 12));
@@ -178,6 +182,15 @@ void reports() {
     assert(makeReport(Report::Health, false, snap, s, out, sizeof out) && strstr(out, "3790"));
     assert(csvField(cell, sizeof cell, "a,\"b\"\nc") && !strcmp(cell, "\"a,\"\"b\"\"\nc\""));
     assert(!csvField(cell, 3, "xxxx"));
+    s = Session{};
+    const uint32_t start = UINT32_MAX - 500;
+    assert(s.start(1 << Heap, start));
+    for (uint32_t ms = 0; ms < 86400000; ms += 1000) {
+        s.tick(start + ms);
+        s.observe(FreeHeap, device, 48000);
+    }
+    s.tick(start + 86401999u);
+    assert(!s.running && s.elapsed == 86400000 && s.stats[FreeHeap].count == 86400);
     s = Session{};
     assert(s.start((1 << Groups) - 1, UINT32_MAX - 100));
     for (unsigned i = 0; i < MetricCount; ++i)

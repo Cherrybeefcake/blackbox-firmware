@@ -31,6 +31,7 @@ bool matches(const Destination &, const char *query);
 void launch(Destination);
 void benchDestination(Kind, unsigned);
 void workspaceDestination(unsigned);
+bool preferencesAvailable();
 void loadSettings();
 void serviceSettings(uint32_t now);
 void applySettings();
