@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "bench_offline.h"
+#include "workspace.h"
+#include "reports.h"
 #include "bench_stubs.h"
 #include "profile_stubs.h"
 #include <climits>
@@ -172,8 +174,37 @@ void ui() {
     assert(!fixture::edit && screen.find("0.006 A") != std::string::npos);
     app.leave();
 }
+void recorderHooks() {
+    using namespace ws;
+    assert(recorder.start((1<<Calc)|(1<<ws::Gpio),0));
+    auto &app=hardwareLabApp;
+    app.enter();
+    benchDestination(Kind::Formula,unsigned(Math::Divider));
+    assert(screen.find("Voltage divider")!=std::string::npos);
+    step(app,4); choose(app);
+    auto &value=recorder.stats[Formula0+unsigned(Math::Divider)];
+    assert(value.count==1 && std::fabs(value.mean-10.0/3.0)<1e-10);
+    app.leave();
+    for (bool pin : {true,false}) {
+        app.enter();
+        for (unsigned i=0;i<articleCount(pin);++i) {
+            benchDestination(pin?Kind::Pins:Kind::Reference,i);
+            assert(screen.find(article(pin,i).rows[0])!=std::string::npos);
+        }
+        app.leave();
+    }
+    Bench b; b.tool=bench::Gpio; b.sample(2,200);
+    assert(recorder.stats[MetricCount].mean==1 && recorder.stats[MetricCount+1].mean==0);
+    const char text[]="PRIVATE-UART-CONTENT";
+    b.tool=Uart; b.ingest(reinterpret_cast<const uint8_t *>(text),sizeof text-1,220);
+    recorder.stop(300);
+    char report[reportLimit];
+    assert(makeReport(Report::Session,true,Snapshot{},recorder,report,sizeof report));
+    assert(!strstr(report,text) && strstr(report,"CALCULATED") && strstr(report,"SIM"));
+}
 int main() {
     model();
     offline();
     ui();
+    recorderHooks();
 }

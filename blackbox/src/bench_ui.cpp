@@ -2,7 +2,9 @@
 #include "bench.h"
 #include "bench_offline.h"
 #include "device.h"
+#include "reports.h"
 #include "wireless_view.h"
+#include "workspace.h"
 #include <algorithm>
 #include <cstdarg>
 #include <cstdio>
@@ -59,6 +61,7 @@ enum Action {
     NextField,
     Edit,
     Preset,
+    RecordResult,
     Back
 };
 const char *caption(Action a) {
@@ -78,6 +81,7 @@ const char *caption(Action a) {
         case NextFormula: return "Next calculator";
         case NextField: return "Next input";
         case Edit: return "Edit selected input";
+        case RecordResult: return "Sample result for recorder";
         case Preset: return "Cycle value / color";
         default: return "Back";
     }
@@ -126,8 +130,8 @@ Actions choices() {
             };
         case Calculators:
             return {
-                {NextFormula, NextField, Edit, Preset, Back},
-                5
+                {NextFormula, NextField, Edit, Preset, RecordResult, Back},
+                6
             };
         case Profiler:
             return {
@@ -420,6 +424,7 @@ void leave() {
 void enter(bool serial) {
     leave();
     terminal = serial;
+    session.simulated = ws::prefs.simulation;
     detail = false;
     menu = action = page = selected = offset = simOwner = ownerIndex = 0;
     calc.select(Math::Current);
@@ -432,6 +437,7 @@ void open() {
     if (!terminal) {
         session = Bench{};
         session.tool = labTools[menu];
+        session.simulated = ws::prefs.simulation;
     }
     if (session.tool == Profiler) {
         metric = metrics();
@@ -579,11 +585,35 @@ bool special(Key k) {
             }
             break;
         case Preset: calc.cycle(); break;
+        case RecordResult: {
+            if (calc.mode == Math::Logic || !ws::recorder.wants(ws::Calc)) break;
+            char out[3][40];
+            double value = 0;
+            bool ok = calc.result(out, &value);
+            ws::recorder.observe(
+                ws::Metric(ws::Formula0 + unsigned(calc.mode)), ws::Origin::Calculation, value, !ok
+            );
+            break;
+        }
         default: break;
     }
     draw();
     return true;
 }
 } // namespace
+namespace ws {
+void benchDestination(Kind kind, unsigned item) {
+    if (kind == Kind::Formula) {
+        menu = 3;
+        calc.select(bench::Math(item));
+    } else if (kind == Kind::Pins || kind == Kind::Reference) menu = kind == Kind::Pins ? 4 : 5;
+    else menu = item;
+    open();
+    if (kind == Kind::Pins || kind == Kind::Reference) {
+        page = item;
+        draw();
+    }
+}
+} // namespace ws
 const Lifecycle hardwareLabApp{[] { enter(false); }, refresh, input, leave, special};
 const Lifecycle terminalApp{[] { enter(true); }, refresh, input, leave, special};

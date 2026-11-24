@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include "reports.h"
 #include "wireless.h"
 #include <Arduino.h>
 #include <algorithm>
@@ -182,6 +183,11 @@ bool stop(Owner who) {
     if (!ok) error = "Shutdown failed: reboot";
     return ok;
 }
+void recordScanError(Owner who) {
+    if ((who != Owner::Explorer && who != Owner::Channels) || !ws::recorder.wants(ws::Channels)) return;
+    for (unsigned i = 0; i < 14; ++i)
+        ws::recorder.observe(ws::Metric(ws::Channel1 + i), ws::Origin::Device, 0, true);
+}
 const Driver driver = {start, stop};
 } // namespace
 bool begin(Owner who, const Record *ap) {
@@ -194,17 +200,23 @@ bool begin(Owner who, const Record *ap) {
         results.count = 0;
         results.limited = false;
     }
-    return session.begin(who, millis(), who == Owner::Meter ? 38000 : 12000, driver);
+    bool ok = session.begin(who, millis(), who == Owner::Meter ? 38000 : 12000, driver);
+    if (!ok) recordScanError(who);
+    return ok;
 }
 void poll() {
     Owner who = session.owner;
     if (who == Owner::None) return;
     minimumHeap = std::min(minimumHeap, (unsigned)ESP.getFreeHeap());
     session.tick(millis(), driver);
-    if (session.owner == Owner::None) return;
+    if (session.owner == Owner::None) {
+        recordScanError(who);
+        return;
+    }
     if (who == Owner::Bluetooth && ready.exchange(false) && esp_ble_gap_start_scanning(5) != ESP_OK)
         failed = true;
     if (failed.load()) {
+        recordScanError(who);
         error = "Scan failed";
         session.end(who, Phase::Error, driver);
         return;
@@ -240,6 +252,15 @@ void poll() {
                 r.rssi = w.rssi;
                 nameCopy(r.name, w.ssid, strnlen((char *)w.ssid, 32));
                 results.add(r);
+            }
+            if ((who == Owner::Explorer || who == Owner::Channels) && ws::recorder.wants(ws::Channels)) {
+                unsigned counts[14]{};
+                for (unsigned i = 0; i < results.count; ++i) {
+                    unsigned ch = results.rows[i].channel;
+                    if (ch >= 1 && ch <= 14) ++counts[ch - 1];
+                }
+                for (unsigned i = 0; i < 14; ++i)
+                    ws::recorder.observe(ws::Metric(ws::Channel1 + i), ws::Origin::Device, counts[i]);
             }
             memset(records, 0, n * sizeof(records[0]));
             if (who == Owner::Meter && attempts < 30) return;

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "subghz.h"
+#include "reports.h"
 #include <cassert>
 #include <climits>
 #include <initializer_list>
@@ -58,6 +59,7 @@ int main() {
     s.stop();
     s.stop();
     assert(closes == 4 && s.result == Result::Stopped);
+    assert(ws::recorder.start(1<<ws::SubGHz,0));
     s.begin(simulated, true, 433900, 50, 0);
     int expected = -200;
     unsigned peak = 0;
@@ -70,5 +72,6 @@ int main() {
             peak = f;
         }
     }
+    assert(ws::recorder.stats[ws::SimRssi].count==3*bins && ws::recorder.stats[ws::SimRssi].high==expected);
     assert(s.peak == expected && s.peakKhz == peak && s.seen == bins && s.bin == 0);
 }

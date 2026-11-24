@@ -50,6 +50,8 @@ Key readInput() {
         return bench::inputChar ? Key::Character : Key::None;
     }
     switch (event) {
+        case 0x80 | 6: return Key::Search;    // Q
+        case 0x80 | 27: return Key::Shortcut; // F
         case 0x80 | 67: return Key::Open;
         case 0x80 | 65: return Key::Back;
         case 0x80 | 57: return Key::Up;    // ADV semicolon key

@@ -25,7 +25,7 @@ static void noop() {}
 static void input(Key) {}
 const Lifecycle systemApp = {noop, noop, input, noop}, settingsApp = {noop, noop, input, noop},
                 modulesApp = {noop, noop, input, leave};
-const Lifecycle terminalApp=systemApp, hardwareLabApp=systemApp, nfcApp=systemApp, infraredApp=systemApp, signalApp = systemApp, wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
+const Lifecycle workspaceApp=systemApp, filesApp=systemApp, terminalApp=systemApp, hardwareLabApp=systemApp, nfcApp=systemApp, infraredApp=systemApp, signalApp = systemApp, wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
 int main() {
     const Owner app = Owner::Application, ui = Owner::Manager;
     assert(manager.acquire(1, ui) == State::Unavailable && starts == 0);

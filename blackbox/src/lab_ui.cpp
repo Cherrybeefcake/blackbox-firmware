@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "lab.h"
 #include "platform.h"
+#include "workspace.h"
 #include "wireless_view.h"
 #include <cstdio>
 #include <cstring>
@@ -166,7 +167,7 @@ void leave() {
 void enter(bool infrared) {
     leave();
     ir = infrared;
-    source = ir ? Source::Emitter : Source::Cap;
+    source = ws::prefs.accessorySim ? Source::Simulation : ir ? Source::Emitter : Source::Cap;
     page = action = 0;
     detail = false;
     draw();

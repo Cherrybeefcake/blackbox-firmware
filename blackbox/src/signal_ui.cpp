@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "platform.h"
+#include "workspace.h"
 #include "subghz.h"
 #include "wireless_view.h"
 #include <cstdio>
@@ -116,7 +117,8 @@ void draw() {
 }
 void enter() {
     session = Session{};
-    detail = demo = false;
+    detail = false;
+    demo = ws::prefs.accessorySim;
     selected = action = 0;
     center = 433900;
     spacing = 50;

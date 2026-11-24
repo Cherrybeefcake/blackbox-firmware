@@ -6,6 +6,12 @@ Terminal owns one receive-only session across its monitor, viewers, configuratio
 
 The offline calculator and reference modules use fixed tables. System Profiler uses ESP32 runtime counters, linker boundaries and the running application's partition metadata. Live screens refresh their content region using the existing display service. [Hardware Lab implementation and measurements](HARDWARE_LAB.md)
 
+## Workspace services in 0.8.0
+
+Files and the Workspace launcher are ordinary dashboard applications. Quick Search sends a typed destination through the existing lifecycle and capability check. The current application releases its resources before the destination opens. Formula and reference destinations open directly on the selected tool. The search index reads existing registry, calculator and article tables. Persistent favorites and recent history store stable application IDs.
+
+The storage manager grants a mounted volume to one foreground client. The RAM and SD backends implement the same bounded read, list and staged write operations. The physical backend also needs an exclusive Module Manager lease. The recorder can aggregate selected numeric measurements across application changes without owning storage. The recorder mounts storage on an explicit request and writes the frozen report after confirmation. NVS settings have an independent schema, validation and write schedule. [Storage boundaries, controls, build and tests](WORKSPACE.md)
+
 ## Historical upstream audit and initial dashboard proposal
 
 Boot initializes board defaults and display, mounts storage, reads saved configuration and then detects ADV hardware. The input task updates shared key state under a mutex. MainMenu filters registered menu objects and dispatches selections through synchronous callbacks. Carousel and grid views share the display and status bar. [Startup](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/main.cpp#L455-L575) · [Menu](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/main_menu.cpp#L6-L105) · [Input](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/mykeyboard.cpp#L241-L266)

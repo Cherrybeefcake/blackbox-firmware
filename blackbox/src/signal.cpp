@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include "reports.h"
 #include "subghz.h"
 namespace rf {
 bool valid(unsigned khz) { return khz >= 433000 && khz <= 435000; }
@@ -63,6 +64,7 @@ void Session::tick(unsigned now) {
         return;
     }
     if (!sweep && count && value >= -70 && at(count - 1).dbm >= -70) activityMs += now - at(count - 1).ms;
+    if (backend == &simulated) ws::recorder.observe(ws::SimRssi, ws::Origin::Simulation, value);
     history[head] = {now, value};
     head = (head + 1) % capacity;
     if (count < capacity) ++count;

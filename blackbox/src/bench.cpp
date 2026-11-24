@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "bench.h"
+#include "reports.h"
 #include <climits>
 #include <cstdio>
 #include <cstring>
@@ -55,6 +56,11 @@ void Bench::sample(unsigned pins, unsigned time) {
             if (edges[i] < UINT_MAX) ++edges[i];
             changed[i] = time;
         }
+    if (ws::recorder.wants(ws::Gpio)) {
+        auto origin = simulated ? ws::Origin::Simulation : ws::Origin::Device;
+        ws::recorder.observe(ws::Gpio2, origin, pins & 1);
+        ws::recorder.observe(ws::Gpio1, origin, (pins >> 1) & 1);
+    }
     sampled = true;
     value = pins;
     trace.add(uint8_t(pins));

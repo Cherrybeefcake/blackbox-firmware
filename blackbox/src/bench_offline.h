@@ -31,7 +31,7 @@ struct Calculator {
     unsigned field = 0;
     void select(Math f);
     void cycle();
-    bool result(char (&out)[3][40]) const;
+    bool result(char (&out)[3][40], double *value = nullptr) const;
 };
 struct Article {
     const char *rows[5];

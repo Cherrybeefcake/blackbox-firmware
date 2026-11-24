@@ -89,7 +89,7 @@ void Calculator::cycle() {
         strcpy(args[field], presets[(i + 1) % 8]);
     }
 }
-bool Calculator::result(char (&out)[3][40]) const {
+bool Calculator::result(char (&out)[3][40], double *numeric) const {
     memset(out, 0, sizeof out);
     auto invalid = [&]() {
         strcpy(out[0], "Invalid or out of range");
@@ -105,6 +105,7 @@ bool Calculator::result(char (&out)[3][40]) const {
     if (mode == Math::Base) {
         uint32_t v;
         if (!baseValue(args[0], v)) return invalid();
+        if (numeric) *numeric = v;
         snprintf(out[0], 40, "Dec %lu", (unsigned long)v);
         snprintf(out[1], 40, "Hex 0x%lX", (unsigned long)v);
         strcpy(out[2], "Bin ");
@@ -123,6 +124,7 @@ bool Calculator::result(char (&out)[3][40]) const {
             else if (i + 2 == n) multiplier = c == 10 ? 0.1 : c == 11 ? 0.01 : pow(10, c);
             else digits = digits * 10 + c;
         }
+        if (numeric) *numeric = digits * multiplier;
         snprintf(out[0], 40, "%.9g ohm +/- %.3g%%", digits * multiplier, tol);
         snprintf(out[1], 40, "%s %s %s", args[0], args[1], args[2]);
         snprintf(out[2], 40, "%s %s", args[3], args[4]);
@@ -196,6 +198,7 @@ bool Calculator::result(char (&out)[3][40]) const {
         default: return invalid();
     }
     if (!std::isfinite(v)) return invalid();
+    if (numeric) *numeric = v;
     snprintf(out[0], 40, "%.9g %s", v, unit);
     return true;
 }

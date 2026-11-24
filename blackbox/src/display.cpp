@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "device.h"
 #include "lab.h"
-#include "subghz.h"
 #include "modules.h"
+#include "subghz.h"
+#include "workspace.h"
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 namespace {
 TFT_eSPI lcd;
-constexpr uint16_t green = 0x066F, muted = 0xA554;
-unsigned brightness = 2, focus = 0;
-bool contrast = false;
+constexpr uint16_t muted = 0xA554;
+uint16_t themeColor() { return ws::prefs.theme ? 0x87F5 : 0x066F; }
+unsigned focus = 0;
+auto &brightness = ws::prefs.brightness;
+auto &contrast = ws::prefs.contrast;
 uint16_t detail() { return contrast ? TFT_WHITE : muted; }
 void text(int x, int y, const char *s, uint16_t color, int font = 1, int pad = 0) {
     lcd.setTextColor(color, TFT_BLACK);
@@ -20,10 +23,10 @@ void text(int x, int y, const char *s, uint16_t color, int font = 1, int pad = 0
 char oldBar[16];
 void frame(const char *title, const char *hint) {
     lcd.fillScreen(TFT_BLACK);
-    text(4, 1, "BLACKBOX", green, 2);
+    text(4, 1, "BLACKBOX", themeColor(), 2);
     text(80, 5, title, TFT_WHITE);
-    lcd.drawFastHLine(4, 19, 232, green);
-    lcd.drawFastHLine(4, 113, 232, green);
+    lcd.drawFastHLine(4, 19, 232, themeColor());
+    lcd.drawFastHLine(4, 113, 232, themeColor());
     text(4, 120, hint, detail());
     oldBar[0] = 0;
     refreshBar();
@@ -33,13 +36,13 @@ void tile(unsigned index, bool selected) {
     if (!app) return;
     unsigned slot = index % pageSize;
     int x = 3 + 79 * (slot % columns), y = 22 + 45 * (slot / columns);
-    lcd.drawRect(x, y, 76, 42, selected ? green : detail());
+    lcd.drawRect(x, y, 76, 42, selected ? themeColor() : detail());
     for (int r = 0; r < 8; ++r)
         for (int c = 0; c < 8; ++c)
             if (app->icon[r] & (128 >> c))
-                lcd.fillRect(x + 5 + c * 2, y + 4 + r * 2, 2, 2, app->run ? green : detail());
+                lcd.fillRect(x + 5 + c * 2, y + 4 + r * 2, 2, 2, app->run ? themeColor() : detail());
     if (!app->run) text(x + 26, y + 8, "PLANNED", detail());
-    text(x + 5, y + 26, app->tile, selected ? green : TFT_WHITE);
+    text(x + 5, y + 26, app->tile, selected ? themeColor() : TFT_WHITE);
 }
 char previous[5][32];
 void field(unsigned i, const char *value) {
@@ -68,9 +71,9 @@ void systemEnter() {
 void settingsRows() {
     const char *levels[] = {"Low", "Medium", "High"};
     text(5, 33, focus == 0 ? "> Brightness" : "  Brightness", detail(), 2, 112);
-    text(122, 33, levels[brightness], green, 2, 110);
+    text(122, 33, levels[brightness], themeColor(), 2, 110);
     text(5, 58, focus == 1 ? "> Contrast" : "  Contrast", detail(), 2, 112);
-    text(122, 58, contrast ? "High" : "Standard", green, 2, 110);
+    text(122, 58, contrast ? "High" : "Standard", themeColor(), 2, 110);
 }
 void settingsEnter() {
     frame("SETTINGS", "ENTER: change   DEL / hold G0: Home");
@@ -108,14 +111,14 @@ void moduleView() {
         unsigned first = selectedModule / 5 * 5;
         for (unsigned i = first; i < moduleCount() && i < first + 5; ++i) {
             int y = 25 + 17 * (i - first);
-            text(3, y, i == selectedModule ? ">" : " ", green);
-            text(13, y, modules.profile(i)->name, i == selectedModule ? green : TFT_WHITE);
+            text(3, y, i == selectedModule ? ">" : " ", themeColor());
+            text(13, y, modules.profile(i)->name, i == selectedModule ? themeColor() : TFT_WHITE);
             text(144, y, availability(i), detail());
         }
         return;
     }
     frame("DETAILS", "Left: list   DEL / hold G0: Home");
-    text(5, 23, p.name, green, 2);
+    text(5, 23, p.name, themeColor(), 2);
     char line[40];
     snprintf(line, sizeof(line), "%s | %s", busName(p.bus), availability(selectedModule));
     text(5, 43, line, TFT_WHITE);
@@ -136,6 +139,7 @@ void moduleView() {
     if (selectedModule == rf::moduleIndex) action = "Open Sub-GHz for RX diagnostics";
     else if (selectedModule == lab::capSlot || selectedModule == lab::groveSlot) action = "Open NFC Center for reader status";
     else if (selectedModule == lab::irSlot) action = "Open Infrared Lab for emitter status";
+    else if (selectedModule == 8) action = "Files: microSD bench lock / RAM sim";
     else if (selectedModule == 7 || selectedModule >= 11) action = "Open Hardware Lab to use";
     else if (p.start) action = status.adv ? "ENTER: check address (ACK only)" : "Disabled: ADV unconfirmed";
     text(5, 99, action, detail());
@@ -177,13 +181,18 @@ void refreshBar() {
         text(192, 5, buf, detail(), 1, 48);
     }
 }
+void applyBrightness() {
+    const int duty[] = {65, 150, 255};
+    ledcWrite(0, duty[brightness]);
+}
 void initDisplay() {
     lcd.init();
     lcd.setRotation(1);
     lcd.invertDisplay(true);
     ledcSetup(0, 5000, 8);
     ledcAttachPin(38, 0);
-    ledcWrite(0, 255);
+    const int duty[] = {65, 150, 255};
+    ledcWrite(0, duty[brightness]);
     frame("STARTUP", version);
     text(8, 45, "Device diagnostics", TFT_WHITE, 2);
 }
@@ -197,7 +206,7 @@ void renderHome(unsigned selected, int previousIndex) {
             selected / pageSize + 1,
             (appCount() + pageSize - 1) / pageSize
         );
-        frame(title, "; , . /   ENTER    G0: next / hold");
+        frame(title, "Q search  F shortcut  G0 next/hold");
         unsigned first = selected / pageSize * pageSize;
         for (unsigned i = first; i < first + pageSize; ++i) tile(i, i == selected);
     } else {
@@ -208,11 +217,15 @@ void renderHome(unsigned selected, int previousIndex) {
 void showNotice(const App &app, bool missing) {
     frame("APP STATUS", "DEL or G0: Home");
     text(6, 36, app.name, TFT_WHITE, 2);
-    text(6, 68, missing ? "Required hardware unavailable" : "Planned application", green);
+    text(6, 68, missing ? "Required hardware unavailable" : "Planned application", themeColor());
 }
 void airFrame(const char *title, const char *footer) { frame(title, footer); }
-void airText(int x, int y, const char *value, bool accent) { text(x, y, value, accent ? green : TFT_WHITE); }
-void airRect(int x, int y, int width, int height, bool accent) {
-    lcd.fillRect(x, y, width, height, accent ? green : muted);
+void airText(int x, int y, const char *value, bool accent) {
+    text(x, y, value, accent ? themeColor() : TFT_WHITE);
 }
-void airRow(int x, int y, const char *value, bool accent) { text(x, y, value, accent ? green : TFT_WHITE, 1, 232); }
+void airRect(int x, int y, int width, int height, bool accent) {
+    lcd.fillRect(x, y, width, height, accent ? themeColor() : muted);
+}
+void airRow(int x, int y, const char *value, bool accent) {
+    text(x, y, value, accent ? themeColor() : TFT_WHITE, 1, 232);
+}

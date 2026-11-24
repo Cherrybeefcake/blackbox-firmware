@@ -9,4 +9,15 @@
 | Menu visibility, shortcut dispatch and startup apps are separate | Hiding an entry does not disable the underlying capability. [Shortcuts](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/mykeyboard.cpp#L273-L318) |
 | Release statistics use total chip capacity | Track image fit against the factory partition. There is no second application slot. [Partitions](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/custom_8Mb.csv) |
 
-Local compilation, live heap, physical pin ownership and detection on the user's device remain unverified.
+The initial upstream audit left live heap, physical pin ownership and peripheral detection open. Independent BLACKBOX releases have their own build and validation records.
+
+## BLACKBOX OS 0.8.0
+
+| Finding | Review consequence |
+|---|---|
+| The ADV microSD electrical profile awaits bench qualification | Physical mount and durable file export are locked. The deterministic RAM workspace loses files on reboot. |
+| Card latency, hot removal and FAT power-loss behavior require real media | Host fault injection covers short writes and interrupted staging. An interrupted file requires explicit recovery in Files before the next write. |
+| Workspace bounds are deliberate | Names use the supported 8.3 subset, paths stop at 79 bytes, and the physical listing shows at most 32 supported entries in the first 64 inspected. Use smaller folders. Text and CSV readers show printable ASCII. Viewer Back keeps eight page positions before returning to the start. |
+| Recent preference edits have a write-behind interval | A reset or power cut before the delayed NVS commit can lose the latest adjustments. A failed write is retried and its status appears in Workspace preferences. |
+| Static RAM increased by 18,824 bytes | Measure minimum heap during simultaneous recording and internal radio diagnostics on the ADV. |
+| Physical inputs and sessions remain untested for this release | Host previews and fixture results cover software behavior. Board identity, power, keyboard, display and bus handoffs need direct checks. [Bench procedure and build evidence](WORKSPACE.md) |
