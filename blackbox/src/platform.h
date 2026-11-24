@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #pragma once
 #include <stdint.h>
-enum class Key { None, Left, Right, Up, Down, Open, Back, Step, Hold };
+enum class Key { None, Left, Right, Up, Down, Open, Back, Step, Hold, Character };
 enum Hardware : uint16_t {
     Panel = 1,
     ADC = 2,
@@ -31,7 +31,7 @@ struct App {
     uint16_t needs;
     const Lifecycle *run;
 };
-extern const Lifecycle nfcApp, infraredApp, signalApp, wifiApp, bleApp, channelApp;
+extern const Lifecycle hardwareLabApp, terminalApp, nfcApp, infraredApp, signalApp, wifiApp, bleApp, channelApp;
 extern const Lifecycle systemApp, settingsApp, modulesApp;
 unsigned appCount();
 const App *appAt(unsigned index);

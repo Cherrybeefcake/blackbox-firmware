@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #pragma once
 #include "platform.h"
-constexpr char version[] = "0.6.0";
+constexpr char version[] = "0.7.0";
 bool initInput();
 Key readInput();
 void initStatus(bool keyboard);

@@ -1,0 +1,89 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='984' height='1160' viewBox='0 0 492 580' font-family='monospace' font-size='9'><rect width='492' height='580' fill='#212728'/><text x='4' y='13' fill='white'>HARDWARE LAB / SYNTHETIC HOST FIXTURES</text>
+<g transform='translate(3 18)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>UART Terminal</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>9600 8N1  RX15 TX13  Running</text>
+<text x='4' y='45' fill='white'></text>
+<text x='4' y='59' fill='white'>LAB READY</text>
+<text x='4' y='73' fill='white'></text>
+<text x='4' y='87' fill='white'>Received 11 bytes</text>
+<text x='4' y='107' fill='#10cf81'>Compose line</text>
+</g>
+<g transform='translate(247 18)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>I2C Inspector</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>Scan complete</text>
+<text x='4' y='45' fill='white'>Grove 100 kHz   112/112   ACK 2</text>
+<text x='4' y='59' fill='white'>28 50 </text>
+<text x='4' y='73' fill='white'></text>
+<text x='4' y='87' fill='white'></text>
+<text x='4' y='107' fill='#10cf81'>Scan addresses</text>
+</g>
+<g transform='translate(3 158)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>SPI Diagnostics</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>Loopback matched</text>
+<text x='4' y='45' fill='white'>Bare EXT: bridge G14 to G39</text>
+<text x='4' y='59' fill='white'>Remove SD and accessories first</text>
+<text x='4' y='73' fill='white'>M0 100 kHz   TX 00 A5 5A FF</text>
+<text x='4' y='87' fill='white'>Observed RX     00 A5 5A FF</text>
+<text x='4' y='107' fill='#10cf81'>Run loopback</text>
+</g>
+<g transform='translate(247 158)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>GPIO Monitor</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>Running</text>
+<text x='4' y='45' fill='white'>Grove inputs | shared ground</text>
+<text x='4' y='59' fill='white'>G2   HIGH   changes 0</text>
+<text x='4' y='73' fill='white'>G1   LOW   changes 0</text>
+<text x='4' y='87' fill='white'>20 ms samples; short pulses may miss</text>
+<text x='4' y='107' fill='#10cf81'>Back</text>
+</g>
+<g transform='translate(3 298)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Calculators</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>Ohm's law</text>
+<text x='4' y='45' fill='white'>A  3.3 V</text>
+<text x='4' y='59' fill='white'>B  1 kOhm</text>
+<text x='4' y='73' fill='#10cf81'>Result   3.3 mA</text>
+<text x='4' y='87' fill='white'>Ready</text>
+<text x='4' y='107' fill='#10cf81'>Next formula</text>
+</g>
+<g transform='translate(247 298)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Pinout reference</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>EXT | 14-pin header</text>
+<text x='4' y='45' fill='white'>1 G3 RESET     2 5VIN</text>
+<text x='4' y='59' fill='white'>3 G4 INT       4 GND</text>
+<text x='4' y='73' fill='white'>5 G6 BUSY      6 5VOUT</text>
+<text x='4' y='87' fill='white'>7 G40 SCK      8 G8 SDA</text>
+<text x='4' y='107' fill='#10cf81'>Next pin group</text>
+</g>
+<g transform='translate(3 438)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>System Profiler</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>CPU 240 MHz   Uptime 123 s</text>
+<text x='4' y='45' fill='white'>Free heap       182000 B</text>
+<text x='4' y='59' fill='white'>Lowest heap     159024 B</text>
+<text x='4' y='73' fill='white'>Largest block   110096 B</text>
+<text x='4' y='87' fill='white'>Physical flash  8192 KiB</text>
+<text x='4' y='107' fill='#10cf81'>Back</text>
+</g>
+<g transform='translate(247 438)'><rect width='240' height='135'/><path d='M4 19h232M4 113h232' stroke='#10cf81'/>
+<text x='4' y='10' fill='#10cf81'>BLACKBOX</text>
+<text x='80' y='12' fill='white'>Hardware Lab</text>
+<text x='4' y='127' fill='white'>Arrows/G0 next  Enter/hold select</text>
+<text x='4' y='31' fill='#10cf81'>> UART Terminal</text>
+<text x='4' y='45' fill='white'>  I2C Inspector</text>
+<text x='4' y='59' fill='white'>  SPI Diagnostics</text>
+<text x='4' y='73' fill='white'>  GPIO Monitor</text>
+<text x='4' y='87' fill='white'>  Calculators</text>
+</g>
+</svg>

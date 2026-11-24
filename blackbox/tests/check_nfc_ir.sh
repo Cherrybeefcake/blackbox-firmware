@@ -11,6 +11,8 @@ check() {
     "$out/$test_name" > "$out/$test_name.out"
     printf '%s passed\n' "$test_name"
 }
+check bench_test -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_ui.cpp
+check bench_preview -Itests/lab_bus src/profiles.cpp src/modules.cpp src/bench.cpp src/bench_ui.cpp
 check navigation_test src/navigation.cpp src/registry.cpp
 check modules_test src/navigation.cpp src/registry.cpp src/modules.cpp
 check wireless_test src/wireless_model.cpp
@@ -25,3 +27,4 @@ check lab_preview src/lab.cpp src/ndef.cpp src/modules.cpp src/lab_ui.cpp
 cmp "$out/wireless_preview.out" ../docs/wireless-preview.svg
 cmp "$out/signal_preview.out" ../docs/signal-preview.svg
 cmp "$out/lab_preview.out" ../docs/nfc-ir-preview.svg
+cmp "$out/bench_preview.out" ../docs/hardware-lab-preview.svg

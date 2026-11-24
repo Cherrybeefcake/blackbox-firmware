@@ -1,6 +1,6 @@
 # BLACKBOX engineering standards
 
-Baseline for review: Bruce 1.17, 2b6ba4d490bfcf94ce2574c6154537dbd5838c3d. Target the M5Stack Cardputer ADV through the shared m5stack-cardputer board support.
+Baseline for review: Bruce 1.17, 2b6ba4d490bfcf94ce2574c6154537dbd5838c3d. BLACKBOX OS targets the M5Stack Cardputer ADV. Compile its independent blackbox-cardputer-adv environment under blackbox/. The upstream build and board definitions remain available for reference.
 
 - Reuse the display, keyboard event consumer, theme and menu infrastructure. Give one screen ownership of input at a time.
 - Prefer fixed-size storage and bounded text buffers for frequently refreshed values. Justify persistent allocations and avoid allocating each frame. Draw small text and icons directly and redraw changed fields.

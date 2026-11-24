@@ -136,6 +136,7 @@ void moduleView() {
     if (selectedModule == rf::moduleIndex) action = "Open Sub-GHz for RX diagnostics";
     else if (selectedModule == lab::capSlot || selectedModule == lab::groveSlot) action = "Open NFC Center for reader status";
     else if (selectedModule == lab::irSlot) action = "Open Infrared Lab for emitter status";
+    else if (selectedModule == 7 || selectedModule >= 11) action = "Open Hardware Lab to use";
     else if (p.start) action = status.adv ? "ENTER: check address (ACK only)" : "Disabled: ADV unconfirmed";
     text(5, 99, action, detail());
 }
@@ -214,3 +215,4 @@ void airText(int x, int y, const char *value, bool accent) { text(x, y, value, a
 void airRect(int x, int y, int width, int height, bool accent) {
     lcd.fillRect(x, y, width, height, accent ? green : muted);
 }
+void airRow(int x, int y, const char *value, bool accent) { text(x, y, value, accent ? green : TFT_WHITE, 1, 232); }

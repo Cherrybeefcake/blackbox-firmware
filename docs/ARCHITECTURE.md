@@ -1,4 +1,10 @@
-# Firmware architecture and dashboard proposal
+# BLACKBOX firmware architecture
+
+The independent Cardputer ADV target builds an explicit source allowlist in blackbox/platformio.ini. Startup initializes the display, keyboard and board status. Registry entries define a screen lifecycle and required capabilities. The main loop routes one input event to the active application and refreshes status once per second.
+
+Hardware Lab and the Terminal shortcut share one session. The application model owns fixed-size display data and session deadlines. The I/O adapter controls peripherals through Module Manager start and stop callbacks. The UI consumes keyboard characters only while a text field is active. Calculations, pin reference pages and system metrics operate without acquiring an external bus. [0.7.0 Hardware Lab](HARDWARE_LAB.md)
+
+## Historical upstream audit and initial dashboard proposal
 
 Boot initializes board defaults and display, mounts storage, reads saved configuration and then detects ADV hardware. The input task updates shared key state under a mutex. MainMenu filters registered menu objects and dispatches selections through synchronous callbacks. Carousel and grid views share the display and status bar. [Startup](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/main.cpp#L455-L575) · [Menu](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/main_menu.cpp#L6-L105) · [Input](https://github.com/Cherrybeefcake/blackbox-firmware/blob/2b6ba4d490bfcf94ce2574c6154537dbd5838c3d/src/core/mykeyboard.cpp#L241-L266)
 

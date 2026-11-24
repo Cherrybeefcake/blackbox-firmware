@@ -10,9 +10,9 @@ static const App apps[] = {
     {"Infrared Lab",       "Infrared",  {0, 66, 36, 24, 24, 36, 66, 0},       Panel,      &infraredApp     },
     {"Module Manager",     "Hardware",  {36, 126, 66, 126, 66, 126, 36, 0},   Panel,      &modulesApp },
     {"Channel Analyzer",   "Analyzer",  {0, 8, 8, 20, 84, 162, 2, 0},         Wifi,       &channelApp },
-    {"Terminal",           "Terminal",  {126, 66, 98, 82, 98, 78, 66, 126},   SerialPort, nullptr     },
+    {"Terminal",           "Terminal",  {126, 66, 98, 82, 98, 78, 66, 126},   Panel,      &terminalApp     },
     {"Files",              "Files",     {0, 112, 136, 254, 130, 130, 254, 0}, Storage,    nullptr     },
-    {"Lab tools",          "Lab",       {60, 24, 24, 36, 66, 126, 126, 0},    Panel,      nullptr     }
+    {"Hardware Lab",       "Lab",       {60, 24, 24, 36, 66, 126, 126, 0},    Panel,      &hardwareLabApp }
 };
 unsigned appCount() { return sizeof(apps) / sizeof(apps[0]); }
 const App *appAt(unsigned index) { return index < appCount() ? &apps[index] : nullptr; }

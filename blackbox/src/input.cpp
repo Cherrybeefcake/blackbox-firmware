@@ -1,5 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include "bench.h"
 #include "device.h"
+namespace bench {
+static bool editing, shift;
+static char inputChar;
+void textMode(bool enable) {
+    editing = enable;
+    inputChar = 0;
+}
+char typed() { return inputChar; }
+} // namespace bench
 #include <Adafruit_TCA8418.h>
 #include <Arduino.h>
 #include <Wire.h>
@@ -29,10 +39,21 @@ Key readInput() {
     }
     if (!ready || !keys.available()) return Key::None;
     // Physical row/column mapping from Bruce's Cardputer ADV matrix.
-    switch (keys.getEvent()) {
+    unsigned event = keys.getEvent();
+    unsigned code = event & 0x7f;
+    if (code == 7) {
+        bench::shift = (event & 0x80) != 0;
+        return Key::None;
+    }
+    if (bench::editing && (event & 0x80) && code != 65 && code != 67) {
+        bench::inputChar = bench::keyCharacter(code, bench::shift);
+        return bench::inputChar ? Key::Character : Key::None;
+    }
+    switch (event) {
         case 0x80 | 67: return Key::Open;
         case 0x80 | 65: return Key::Back;
-        case 0x80 | 53: return Key::Up;    // semicolon
+        case 0x80 | 57: return Key::Up;    // ADV semicolon key
+        case 0x80 | 53: return Key::Up;    // Existing alternate Up key
         case 0x80 | 54: return Key::Left;  // comma
         case 0x80 | 58: return Key::Down;  // period
         case 0x80 | 64: return Key::Right; // slash

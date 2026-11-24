@@ -12,7 +12,7 @@ const Lifecycle systemApp = {enter, refresh, input, leave};
 const Lifecycle settingsApp = {enter, refresh, input, leave};
 const Lifecycle modulesApp = {enter, refresh, input, leave};
 
-const Lifecycle nfcApp=systemApp, infraredApp=systemApp, signalApp = systemApp, wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
+const Lifecycle terminalApp=systemApp, hardwareLabApp=systemApp, nfcApp=systemApp, infraredApp=systemApp, signalApp = systemApp, wifiApp = systemApp, bleApp = systemApp, channelApp = systemApp;
 int main() {
     assert(appCount() == 12 && !appAt(appCount()));
     unsigned live = 0;
@@ -25,7 +25,7 @@ int main() {
             assert(a.run->enter && a.run->leave && a.run->refresh && a.run->input);
         }
     }
-    assert(live == 9);
+    assert(live == 11);
     Navigation n;
     auto press = [&](Key key) { n.handle(key, Panel); };
     press(Key::Left);
@@ -45,11 +45,11 @@ int main() {
     press(Key::Right);
     press(Key::Right);
     assert(n.selected == 2);
-    n.selected = 9;
+    n.selected = 10;
     press(Key::Open);
     assert(n.page == Navigation::Reserved && enters == 1);
     press(Key::Step);
-    assert(n.page == Navigation::Home && n.selected == 9);
+    assert(n.page == Navigation::Home && n.selected == 10);
     n.selected = 2;
     for (int i = 0; i < 4; ++i) press(Key::Down);
     assert(n.selected == 11);
@@ -58,7 +58,7 @@ int main() {
     press(Key::Open);
     press(Key::Back);
     assert(n.page == Navigation::Home && enters == 2 && leaves == 2);
-    n.selected = 999;
+    n.selected = 1099;
     press(Key::Open);
     assert(n.selected == 0 && n.page == Navigation::Home);
 }

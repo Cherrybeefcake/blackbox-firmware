@@ -5,43 +5,13 @@
 #include <cassert>
 #include <cstring>
 #include <initializer_list>
-TestWire Wire;
-bool TestWire::begin(int, int, int) {
-    assert(false);
-    return false;
-}
-void TestWire::setTimeOut(unsigned) {}
-void TestWire::beginTransmission(uint8_t) {}
-int TestWire::endTransmission(bool) { return 2; }
-void TestWire::end() {}
-namespace lab {
-State capStart() {
-    assert(false);
-    return State::Error;
-}
-State groveStart() {
-    assert(false);
-    return State::Error;
-}
-State emitterStart() {
-    assert(false);
-    return State::Error;
-}
-void readerStop() { assert(false); }
-void emitterStop() { assert(false); }
-} // namespace lab
-namespace rf {
-State initChip() {
-    assert(false);
-    return State::Error;
-}
-void powerDown() { assert(false); }
-} // namespace rf
+#include "profile_stubs.h"
+#include "bench_stubs.h"
 int main() {
     using namespace lab;
     modules.identify(true);
     assert(
-        moduleCount() == 11 && !strcmp(modules.profile(groveSlot)->id, "u216") &&
+        moduleCount() == 14 && !strcmp(modules.profile(groveSlot)->id, "u216") &&
         !strcmp(modules.profile(capSlot)->id, "u219-nfc") && !strcmp(modules.profile(irSlot)->id, "adv-ir")
     );
     for (unsigned slot : {capSlot, groveSlot, irSlot}) {
